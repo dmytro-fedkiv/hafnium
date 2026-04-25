@@ -116,7 +116,7 @@ export function TransactionsPage() {
         <section className="flex flex-col gap-4 border-b border-border pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="grid gap-2">
             <p className="text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
-              Hafnum v0.1
+              Hafnium v0.1
             </p>
             <h1 className="text-4xl font-medium tracking-tight text-foreground">
               Transactions

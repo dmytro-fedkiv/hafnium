@@ -182,14 +182,14 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
       <SidebarHeader className="gap-3 px-2 py-3">
         <div className="grid h-8 grid-cols-[minmax(0,1fr)_2rem] items-center gap-2 group-data-[collapsible=icon]:grid-cols-1">
           <a
-            aria-label="hafnum home"
+            aria-label="hafnium home"
             className="flex h-8 min-w-0 items-center gap-2 px-2 text-sm font-medium leading-none text-white outline-none transition-colors hover:bg-[#17171A] focus-visible:ring-2 focus-visible:ring-[#34343A] group-data-[collapsible=icon]:hidden"
             href="/"
-            title="hafnum"
+            title="hafnium"
           >
             <CubeIcon className="size-4 shrink-0 opacity-70" />
             <span className="min-w-0 truncate group-data-[collapsible=icon]:sr-only">
-              hafnum
+              hafnium
             </span>
           </a>
           <SidebarTrigger className="size-8 text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] group-data-[collapsible=icon]:mx-auto" />
