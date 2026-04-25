@@ -159,7 +159,7 @@ export function TransactionDataTable({
         cell: ({ row }) => (
           <div className="flex flex-wrap gap-1.5">
             {row.original.categories.map((category) =>
-              renderCategoryBadge(category),
+              renderCategoryBadge(category, { compact: false }),
             )}
           </div>
         ),
@@ -199,7 +199,7 @@ export function TransactionDataTable({
             row.getValue(columnId) as Transaction["status"],
           );
         },
-        cell: ({ row }) => renderStatusBadge(row.original),
+        cell: ({ row }) => renderStatusBadge(row.original, { compact: false }),
       },
       {
         id: "actions",
@@ -629,7 +629,11 @@ export function TransactionDataTable({
         </div>
       </div>
 
-      <div className="max-h-[62vh] overflow-auto" onScroll={handleScroll} ref={scrollRef}>
+      <div
+        className="max-h-[62vh] overflow-auto"
+        onScroll={handleScroll}
+        ref={scrollRef}
+      >
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-background">
             {table.getHeaderGroups().map((headerGroup) => (

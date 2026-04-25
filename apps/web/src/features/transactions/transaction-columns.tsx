@@ -1,10 +1,21 @@
 import {
+  AirplaneTiltIcon,
   ArrowDownIcon,
   ArrowUpIcon,
+  BriefcaseIcon,
+  CalendarCheckIcon,
+  ClockCountdownIcon,
+  CoffeeIcon,
   DotsThreeOutlineVerticalIcon,
   EyeIcon,
+  ForkKnifeIcon,
+  HeartbeatIcon,
+  HouseIcon,
   PencilSimpleIcon,
+  ReceiptIcon,
+  ShapesIcon,
   TrashIcon,
+  WarningOctagonIcon,
 } from "@phosphor-icons/react";
 
 import { Badge } from "@/components/ui/badge";
@@ -46,33 +57,107 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
 });
 
-export function renderCategoryBadge(category: TransactionCategory) {
+const categoryIcons = {
+  coffee: CoffeeIcon,
+  food: ForkKnifeIcon,
+  health: HeartbeatIcon,
+  rent: HouseIcon,
+  salary: BriefcaseIcon,
+  software: ReceiptIcon,
+  travel: AirplaneTiltIcon,
+} as const;
+
+const statusStyles = {
+  completed: {
+    background: "#dcfce7",
+    color: "#166534",
+    icon: CalendarCheckIcon,
+    label: "Completed",
+  },
+  failed: {
+    background: "#fee2e2",
+    color: "#b91c1c",
+    icon: WarningOctagonIcon,
+    label: "Failed",
+  },
+  pending: {
+    background: "#fef3c7",
+    color: "#b45309",
+    icon: ClockCountdownIcon,
+    label: "Pending",
+  },
+} satisfies Record<
+  Transaction["status"],
+  {
+    background: string;
+    color: string;
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+  }
+>;
+
+export function renderCategoryBadge(
+  category: TransactionCategory,
+  options?: Readonly<{ compact?: boolean }>,
+) {
+  const Icon = resolveCategoryIcon(category.id);
+  const isCompact = options?.compact ?? false;
+
   return (
     <Badge
-      className="gap-1.5 rounded-none normal-case tracking-normal"
+      className="rounded-none border-0 normal-case tracking-normal shadow-none"
       key={category.id}
       style={{
-        backgroundColor: `${category.color}14`,
-        borderColor: `${category.color}55`,
-        color: category.color,
+        backgroundColor: category.color,
+        color: "#ffffff",
       }}
-      variant="outline"
+      variant="secondary"
     >
-      <span>{category.emoji}</span>
-      <span>{category.name}</span>
+      <span aria-hidden="true" className="grid size-4 place-items-center">
+        <Icon className="size-3.5" weight="regular" />
+      </span>
+      {isCompact ? (
+        <span className="sr-only">{category.name}</span>
+      ) : (
+        <span>{category.name}</span>
+      )}
     </Badge>
   );
 }
 
-export function renderStatusBadge(transaction: Transaction) {
-  const variant =
-    transaction.status === "completed"
-      ? "success"
-      : transaction.status === "pending"
-        ? "warning"
-        : "destructive";
+function resolveCategoryIcon(categoryId: string) {
+  return categoryId in categoryIcons
+    ? categoryIcons[categoryId as keyof typeof categoryIcons]
+    : ShapesIcon;
+}
 
-  return <Badge variant={variant}>{transaction.status}</Badge>;
+export function renderStatusBadge(
+  transaction: Transaction,
+  options?: Readonly<{ compact?: boolean }>,
+) {
+  const statusStyle = statusStyles[transaction.status];
+  const Icon = statusStyle.icon;
+  const isCompact = options?.compact ?? false;
+
+  return (
+    <Badge
+      className="rounded-none border-0 normal-case shadow-none"
+      style={{
+        backgroundColor: statusStyle.background,
+        color: statusStyle.color,
+      }}
+      variant="secondary"
+    >
+      <span aria-hidden="true" className="grid size-4 place-items-center">
+        <Icon className="size-3.5" weight="regular" />
+      </span>
+      {isCompact ? (
+        <span className="sr-only">{statusStyle.label}</span>
+      ) : (
+        <span>{statusStyle.label}</span>
+      )}
+    </Badge>
+  );
 }
 
 export function renderAmount(transaction: Transaction) {
