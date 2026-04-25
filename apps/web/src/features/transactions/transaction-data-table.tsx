@@ -390,7 +390,7 @@ export function TransactionDataTable({
   }
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-0">
       <div className="flex flex-col gap-3 border-b border-border px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex min-w-0 flex-1 flex-col gap-3">
           <div className="relative min-w-0">
@@ -640,11 +640,7 @@ export function TransactionDataTable({
         </div>
       </div>
 
-      <div
-        className="max-h-[62vh] overflow-auto border-t border-border"
-        onScroll={handleScroll}
-        ref={scrollRef}
-      >
+      <div className="max-h-[62vh] overflow-auto" onScroll={handleScroll} ref={scrollRef}>
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-background">
             {table.getHeaderGroups().map((headerGroup) => (

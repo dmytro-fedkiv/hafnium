@@ -171,32 +171,35 @@ const chartConfig = {
 
 export function DashboardPage() {
   return (
-    <main className="min-h-screen bg-[#0f1011] text-[#EDEDED]">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-4 px-6 py-7 lg:px-8">
         <section className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div className="grid gap-2">
-            <h1 className="text-2xl font-medium tracking-normal text-white">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Hafnum v0.1
+            </p>
+            <h1 className="text-2xl font-medium tracking-normal">
               Dashboard
             </h1>
-            <p className="text-sm text-[#8D929A]">
+            <p className="text-sm text-muted-foreground">
               Overview of your financial health
             </p>
           </div>
           <div className="flex items-center">
             <Button
-              className="border-[#343840] bg-[#131518] text-[#EDEDED] hover:bg-[#1A1D21]"
+              className="border-border bg-background text-foreground hover:bg-muted"
               type="button"
               variant="outline"
             >
               May 2026
-              <CaretDownIcon className="size-4 text-[#858B94]" />
+              <CaretDownIcon className="size-4 text-muted-foreground" />
             </Button>
             <Button
-              className="border-l-0 border-[#343840] bg-[#131518] px-3 text-[#EDEDED] hover:bg-[#1A1D21]"
+              className="border-border border-l-0 bg-background px-3 text-foreground hover:bg-muted"
               type="button"
               variant="outline"
             >
-              <CalendarBlankIcon className="size-4 text-[#858B94]" />
+              <CalendarBlankIcon className="size-4 text-muted-foreground" />
             </Button>
           </div>
         </section>
@@ -223,16 +226,14 @@ export function DashboardPage() {
 
 function MetricCard({ metric }: Readonly<{ metric: Metric }>) {
   return (
-    <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
+    <Card className="border border-border bg-card py-0 ring-0">
       <CardHeader className="gap-4 px-5 py-5">
-        <CardDescription className="text-[#858B94]">
-          {metric.label}
-        </CardDescription>
-        <CardTitle className="font-mono text-2xl font-medium text-white">
+        <CardDescription>{metric.label}</CardDescription>
+        <CardTitle className="font-mono text-2xl font-medium">
           {metric.value}
         </CardTitle>
         <p
-          className="text-sm text-[#858B94] data-[tone=positive]:font-medium data-[tone=positive]:text-[#10b981]"
+          className="text-sm text-muted-foreground data-[tone=positive]:font-medium data-[tone=positive]:text-emerald-600"
           data-tone={metric.tone}
         >
           {metric.detail}
@@ -246,28 +247,28 @@ function InsightCard() {
   const bars = [42, 58, 92, 48, 68];
 
   return (
-    <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
+    <Card className="border border-border bg-card py-0 ring-0">
       <CardContent className="grid gap-6 px-5 py-5 md:grid-cols-[minmax(0,1fr)_8rem] md:items-end">
         <div className="grid gap-4">
-          <p className="text-sm font-medium text-[#A6ABB3]">AI Insight</p>
+          <p className="text-sm font-medium text-muted-foreground">AI Insight</p>
           <div className="grid gap-3">
-            <h2 className="text-base font-medium text-white">
+            <h2 className="text-base font-medium">
               Food spending increased
             </h2>
-            <p className="max-w-xl text-sm leading-6 text-[#A6ABB3]">
+            <p className="max-w-xl text-sm leading-6 text-muted-foreground">
               You spent 28% more on food this month. Most of the increase came
               from restaurants on weekends.
             </p>
-            <p className="text-sm text-[#EDEDED]">
-              <span className="font-medium text-white">Action:</span> limit
+            <p className="text-sm text-foreground">
+              <span className="font-medium">Action:</span> limit
               restaurant spending to $80/weekend.
             </p>
-            <p className="text-sm font-medium text-[#10b981]">
+            <p className="text-sm font-medium text-emerald-600">
               Estimated saving: -$120/month
             </p>
           </div>
           <Button
-            className="w-fit border-[#343840] bg-[#131518] text-[#EDEDED] hover:bg-[#1A1D21]"
+            className="w-fit border-border bg-background text-foreground hover:bg-muted"
             type="button"
             variant="outline"
           >
@@ -277,7 +278,7 @@ function InsightCard() {
         <div className="hidden h-32 items-end justify-end gap-3 md:flex">
           {bars.map((height, index) => (
             <span
-              className="w-3 bg-linear-to-t from-[#10b981]/10 to-[#10b981] shadow-[0_0_18px_rgba(16,185,129,0.45)]"
+              className="w-3 bg-linear-to-t from-emerald-500/10 to-emerald-500"
               key={index}
               style={{ height }}
             />
@@ -290,14 +291,14 @@ function InsightCard() {
 
 function TopCategoriesCard() {
   return (
-    <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
-      <CardHeader className="grid grid-cols-[1fr_auto] border-b border-[#26282C] px-5 py-4">
+    <Card className="border border-border bg-card py-0 ring-0">
+      <CardHeader className="grid grid-cols-[1fr_auto] border-b border-border px-5 py-4">
         <div className="grid gap-1">
-          <CardTitle className="text-sm text-white">Top Categories</CardTitle>
-          <CardDescription className="text-[#858B94]">This month</CardDescription>
+          <CardTitle className="text-sm">Top Categories</CardTitle>
+          <CardDescription>This month</CardDescription>
         </div>
         <button
-          className="text-sm font-medium text-[#858B94] underline-offset-4 hover:text-white hover:underline"
+          className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
           type="button"
         >
           View all
@@ -320,15 +321,15 @@ function TopCategoriesCard() {
                 >
                   {category.icon}
                 </span>
-                <span className="truncate text-sm font-medium text-[#EDEDED]">
+                <span className="truncate text-sm font-medium">
                   {category.name}
                 </span>
               </div>
-              <span className="text-right font-mono text-sm text-[#EDEDED]">
+              <span className="text-right font-mono text-sm">
                 {category.amount}
               </span>
               <span
-                className="text-right font-mono text-sm font-medium data-[direction=down]:text-[#10b981] data-[direction=up]:text-[#ef4444]"
+                className="text-right font-mono text-sm font-medium data-[direction=down]:text-emerald-600 data-[direction=up]:text-red-600"
                 data-direction={category.direction}
               >
                 {category.change} {category.direction === "up" ? "↑" : "↓"}
@@ -343,16 +344,16 @@ function TopCategoriesCard() {
 
 function SpendingTrendCard() {
   return (
-    <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
-      <CardHeader className="grid gap-4 border-b border-[#26282C] px-5 py-4 md:grid-cols-[1fr_auto]">
+    <Card className="border border-border bg-card py-0 ring-0">
+      <CardHeader className="grid gap-4 border-b border-border px-5 py-4 md:grid-cols-[1fr_auto]">
         <div className="grid gap-1">
-          <CardTitle className="text-sm text-white">Spending Trend</CardTitle>
-          <CardDescription className="text-[#858B94]">This year</CardDescription>
+          <CardTitle className="text-sm">Spending Trend</CardTitle>
+          <CardDescription>This year</CardDescription>
         </div>
-        <div className="grid grid-cols-3 border border-[#26282C] text-xs">
+        <div className="grid grid-cols-3 border border-border text-xs">
           {["Total", "Categories", "Merchants"].map((item) => (
             <button
-              className="px-3 py-2 text-[#858B94] first:bg-[#232529] first:text-white hover:bg-[#1A1D21]"
+              className="px-3 py-2 text-muted-foreground first:bg-muted first:text-foreground hover:bg-muted"
               key={item}
               type="button"
             >
@@ -372,7 +373,7 @@ function SpendingTrendCard() {
             data={spendingTrend}
             margin={{ bottom: 8, left: 0, right: 10, top: 8 }}
           >
-            <CartesianGrid stroke="#26282C" vertical={false} />
+            <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
             <XAxis
               axisLine={false}
               dataKey="month"
@@ -389,11 +390,11 @@ function SpendingTrendCard() {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  className="border-[#343840] bg-[#101214] text-[#EDEDED]"
+                  className="border-border bg-background text-foreground"
                   formatter={(value) => (
                     <div className="flex min-w-36 items-center justify-between gap-4">
-                      <span className="text-[#A6ABB3]">Spending</span>
-                      <span className="font-mono text-white">
+                      <span className="text-muted-foreground">Spending</span>
+                      <span className="font-mono">
                         {currencyFormatter.format(Number(value))}
                       </span>
                     </div>
@@ -402,10 +403,10 @@ function SpendingTrendCard() {
                 />
               }
             />
-            <Bar dataKey="amount" fill="#2D3035" radius={0}>
+            <Bar dataKey="amount" fill="#d4d4d8" radius={0}>
               {spendingTrend.map((entry) => (
                 <Cell
-                  fill={entry.month === "May" ? "#10b981" : "#2D3035"}
+                  fill={entry.month === "May" ? "#16a34a" : "#d4d4d8"}
                   key={entry.month}
                 />
               ))}
@@ -419,17 +420,17 @@ function SpendingTrendCard() {
 
 function RecentTransactionsCard() {
   return (
-    <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
-      <CardHeader className="grid grid-cols-[1fr_auto] border-b border-[#26282C] px-5 py-4">
-        <CardTitle className="text-sm text-white">Recent Transactions</CardTitle>
+    <Card className="border border-border bg-card py-0 ring-0">
+      <CardHeader className="grid grid-cols-[1fr_auto] border-b border-border px-5 py-4">
+        <CardTitle className="text-sm">Recent Transactions</CardTitle>
         <button
-          className="text-sm font-medium text-[#858B94] underline-offset-4 hover:text-white hover:underline"
+          className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
           type="button"
         >
           View all
         </button>
       </CardHeader>
-      <CardContent className="divide-y divide-[#26282C] px-5 py-2">
+      <CardContent className="divide-y divide-border px-5 py-2">
         <IconContext.Provider value={{ className: "size-3.5" }}>
           {transactions.map((transaction) => (
             <div
@@ -437,18 +438,18 @@ function RecentTransactionsCard() {
               key={`${transaction.merchant}-${transaction.amount}`}
             >
               <div className="flex min-w-0 items-center gap-3">
-                <span className="flex size-5 items-center justify-center border border-[#343840] bg-[#1A1D21] text-[#A6ABB3]">
+                <span className="flex size-5 items-center justify-center border border-border bg-muted text-muted-foreground">
                   {transaction.icon}
                 </span>
-                <span className="truncate text-sm font-medium text-[#EDEDED]">
+                <span className="truncate text-sm font-medium">
                   {transaction.merchant}
                 </span>
               </div>
-              <span className="truncate text-sm text-[#A6ABB3]">
+              <span className="truncate text-sm text-muted-foreground">
                 {transaction.category}
               </span>
               <span
-                className="text-right font-mono text-sm font-medium data-[tone=expense]:text-[#ef4444] data-[tone=income]:text-[#10b981]"
+                className="text-right font-mono text-sm font-medium data-[tone=expense]:text-red-600 data-[tone=income]:text-emerald-600"
                 data-tone={transaction.tone}
               >
                 {transaction.amount}

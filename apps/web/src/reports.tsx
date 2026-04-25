@@ -129,38 +129,41 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 
 export function ReportsPage() {
   return (
-    <main className="min-h-screen bg-[#0f1011] text-[#EDEDED]">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-5 px-8 py-8">
-        <section className="flex flex-col gap-4 border-b border-[#26282C] pb-6 md:flex-row md:items-start md:justify-between">
+        <section className="flex flex-col gap-4 border-b border-border pb-6 md:flex-row md:items-start md:justify-between">
           <div className="grid gap-2">
-            <h1 className="text-2xl font-medium tracking-normal text-white">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Hafnum v0.1
+            </p>
+            <h1 className="text-2xl font-medium tracking-normal">
               Reports
             </h1>
-            <p className="text-sm text-[#8D929A]">
+            <p className="text-sm text-muted-foreground">
               Analyze your financial data
             </p>
           </div>
           <Button
-            className="border-[#343840] bg-[#131518] text-[#EDEDED] hover:bg-[#1A1D21]"
+            className="border-border bg-background text-foreground hover:bg-muted"
             type="button"
             variant="outline"
           >
             May 2026
-            <CaretDownIcon className="size-4 text-[#858B94]" />
+            <CaretDownIcon className="size-4 text-muted-foreground" />
           </Button>
         </section>
 
-        <nav className="flex flex-wrap gap-8 border-b border-[#26282C]">
+        <nav className="flex flex-wrap gap-8 border-b border-border">
           {tabs.map((tab) => (
             <button
-              className="relative pb-3 text-sm font-medium text-[#858B94] hover:text-[#EDEDED] data-[active=true]:text-white"
+              className="relative pb-3 text-sm font-medium text-muted-foreground hover:text-foreground data-[active=true]:text-foreground"
               data-active={tab === "Overview"}
               key={tab}
               type="button"
             >
               {tab}
               {tab === "Overview" ? (
-                <span className="absolute right-0 bottom-0 left-0 h-px bg-white" />
+                <span className="absolute right-0 bottom-0 left-0 h-px bg-foreground" />
               ) : null}
             </button>
           ))}
@@ -172,11 +175,9 @@ export function ReportsPage() {
           ))}
         </section>
 
-        <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
-          <CardHeader className="border-b border-[#26282C] px-5 py-4">
-            <CardTitle className="text-sm text-white">
-              Expenses by Category
-            </CardTitle>
+        <Card className="border border-border bg-card py-0 ring-0">
+          <CardHeader className="border-b border-border px-5 py-4">
+            <CardTitle className="text-sm">Expenses by Category</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-8 px-5 py-5 lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-center">
             <ChartContainer
@@ -209,7 +210,7 @@ export function ReportsPage() {
                           y={viewBox.cy}
                         >
                           <tspan
-                            className="fill-white font-mono text-xl font-medium"
+                            className="fill-foreground font-mono text-xl font-medium"
                             x={viewBox.cx}
                             y={viewBox.cy}
                           >
@@ -218,7 +219,7 @@ export function ReportsPage() {
                             )}
                           </tspan>
                           <tspan
-                            className="fill-[#858B94] text-xs"
+                            className="fill-muted-foreground text-xs"
                             x={viewBox.cx}
                             y={(viewBox.cy ?? 0) + 24}
                           >
@@ -232,11 +233,11 @@ export function ReportsPage() {
                 <ChartTooltip
                   content={
                     <ChartTooltipContent
-                      className="border-[#343840] bg-[#101214] text-[#EDEDED]"
+                      className="border-border bg-background text-foreground"
                       formatter={(value, name) => (
                         <div className="flex min-w-40 items-center justify-between gap-4">
-                          <span className="text-[#A6ABB3]">{name}</span>
-                          <span className="font-mono text-white">
+                          <span className="text-muted-foreground">{name}</span>
+                          <span className="font-mono">
                             {currencyFormatter.format(Number(value) / 100)}
                           </span>
                         </div>
@@ -259,14 +260,14 @@ export function ReportsPage() {
                       className="size-2.5 border border-white/10 shadow-[0_0_10px_currentColor]"
                       style={{ backgroundColor: category.color, color: category.color }}
                     />
-                    <span className="truncate text-[#EDEDED]">
+                    <span className="truncate">
                       {category.name}
                     </span>
                   </div>
-                  <span className="text-right font-mono text-[#A6ABB3]">
+                  <span className="text-right font-mono text-muted-foreground">
                     {currencyFormatter.format(category.amountCents / 100)}
                   </span>
-                  <span className="text-right font-mono text-[#A6ABB3]">
+                  <span className="text-right font-mono text-muted-foreground">
                     {category.percentage}%
                   </span>
                 </div>
@@ -275,21 +276,19 @@ export function ReportsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
-          <CardHeader className="grid gap-1 border-b border-[#26282C] px-5 py-4 md:grid-cols-[1fr_auto]">
+        <Card className="border border-border bg-card py-0 ring-0">
+          <CardHeader className="grid gap-1 border-b border-border px-5 py-4 md:grid-cols-[1fr_auto]">
             <div>
-              <CardTitle className="text-sm text-white">Cash Flow</CardTitle>
-              <CardDescription className="text-[#858B94]">
-                This year
-              </CardDescription>
+              <CardTitle className="text-sm">Cash Flow</CardTitle>
+              <CardDescription>This year</CardDescription>
             </div>
-            <div className="flex items-center gap-5 text-xs text-[#A6ABB3]">
+            <div className="flex items-center gap-5 text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-2">
-                <span className="h-0.5 w-4 bg-[#10b981]" />
+                <span className="h-0.5 w-4 bg-emerald-600" />
                 Income
               </span>
               <span className="inline-flex items-center gap-2">
-                <span className="h-0.5 w-4 bg-[#ef4444]" />
+                <span className="h-0.5 w-4 bg-red-600" />
                 Expenses
               </span>
             </div>
@@ -305,11 +304,7 @@ export function ReportsPage() {
                 data={cashFlowData}
                 margin={{ bottom: 8, left: 0, right: 10, top: 8 }}
               >
-                <CartesianGrid
-                  stroke="#26282C"
-                  strokeDasharray="0"
-                  vertical
-                />
+                <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="0" vertical />
                 <XAxis
                   axisLine={false}
                   dataKey="month"
@@ -327,20 +322,20 @@ export function ReportsPage() {
                 />
                 <ReferenceLine stroke="#26282C" y={0} />
                 <ReferenceLine
-                  stroke="#10b981"
+                  stroke="#16a34a"
                   strokeOpacity={0.35}
                   x="May"
                 />
                 <ChartTooltip
                   content={
                     <ChartTooltipContent
-                      className="border-[#343840] bg-[#101214] text-[#EDEDED]"
+                      className="border-border bg-background text-foreground"
                       formatter={(value, name) => (
                         <div className="flex min-w-40 items-center justify-between gap-4">
-                          <span className="capitalize text-[#A6ABB3]">
+                          <span className="capitalize text-muted-foreground">
                             {name}
                           </span>
-                          <span className="font-mono text-white">
+                          <span className="font-mono">
                             {currencyFormatter.format(Number(value))}
                           </span>
                         </div>
@@ -358,16 +353,16 @@ export function ReportsPage() {
                 <Line
                   activeDot={{ r: 4 }}
                   dataKey="income"
-                  dot={{ fill: "#10b981", r: 3 }}
-                  stroke="#10b981"
+                  dot={{ fill: "#16a34a", r: 3 }}
+                  stroke="#16a34a"
                   strokeWidth={2}
                   type="monotone"
                 />
                 <Line
                   activeDot={{ r: 4 }}
                   dataKey="expenses"
-                  dot={{ fill: "#ef4444", r: 3 }}
-                  stroke="#ef4444"
+                  dot={{ fill: "#dc2626", r: 3 }}
+                  stroke="#dc2626"
                   strokeWidth={2}
                   type="monotone"
                 />
@@ -382,16 +377,14 @@ export function ReportsPage() {
 
 function MetricCard({ metric }: Readonly<{ metric: Metric }>) {
   return (
-    <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
+    <Card className="border border-border bg-card py-0 ring-0">
       <CardHeader className="gap-2 px-5 py-4">
-        <CardDescription className="text-[#858B94]">
-          {metric.label}
-        </CardDescription>
-        <CardTitle className="font-mono text-2xl font-medium text-white">
+        <CardDescription>{metric.label}</CardDescription>
+        <CardTitle className="font-mono text-2xl font-medium">
           {metric.value}
         </CardTitle>
         <p
-          className="text-xs font-medium data-[tone=negative]:text-[#ef4444] data-[tone=positive]:text-[#10b981]"
+          className="text-xs font-medium data-[tone=negative]:text-red-600 data-[tone=positive]:text-emerald-600"
           data-tone={metric.tone}
         >
           {metric.change}

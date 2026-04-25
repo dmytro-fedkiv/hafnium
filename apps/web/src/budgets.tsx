@@ -143,17 +143,20 @@ export function BudgetsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0f1011] text-[#EDEDED]">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-6 px-8 py-8">
-        <section className="flex flex-col gap-4 border-b border-[#26282C] pb-6 md:flex-row md:items-end md:justify-between">
+        <section className="flex flex-col gap-4 border-b border-border pb-6 md:flex-row md:items-end md:justify-between">
           <div className="grid gap-2">
-            <h1 className="text-2xl font-medium tracking-normal text-white">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Hafnum v0.1
+            </p>
+            <h1 className="text-2xl font-medium tracking-normal">
               Budgets
             </h1>
-            <p className="text-sm text-[#8D929A]">Track your budget progress</p>
+            <p className="text-sm text-muted-foreground">Track your budget progress</p>
           </div>
           <Button
-            className="border-[#343840] bg-[#131518] text-[#EDEDED] hover:bg-[#1A1D21]"
+            className="border-border bg-background text-foreground hover:bg-muted"
             onClick={() => setIsCreating((current) => !current)}
             type="button"
             variant="outline"
@@ -164,22 +167,22 @@ export function BudgetsPage() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-[minmax(0,1fr)_17rem]">
-          <Card className="border border-[#26282C] bg-[#141619] py-0 text-[#EDEDED] ring-0">
+          <Card className="border border-border bg-card py-0 ring-0">
             <CardContent className="px-0">
-              <div className="flex items-center justify-between border-b border-[#26282C] px-5 py-4">
-                <div className="text-sm font-medium text-white">Active budgets</div>
-                <div className="font-mono text-xs text-[#858B94]">
+              <div className="flex items-center justify-between border-b border-border px-5 py-4">
+                <div className="text-sm font-medium">Active budgets</div>
+                <div className="font-mono text-xs text-muted-foreground">
                   {budgets.length} categories
                 </div>
               </div>
 
               {isCreating ? (
                 <form
-                  className="grid gap-4 border-b border-[#26282C] bg-[#101214] px-5 py-4 md:grid-cols-[minmax(0,1fr)_10rem_auto]"
+                  className="grid gap-4 border-b border-border bg-muted/40 px-5 py-4 md:grid-cols-[minmax(0,1fr)_10rem_auto]"
                   onSubmit={handleCreateBudget}
                 >
                   <div className="grid gap-2">
-                    <Label className="text-[#8D929A]" htmlFor="budget-category">
+                    <Label className="text-muted-foreground" htmlFor="budget-category">
                       Category
                     </Label>
                     <Select
@@ -189,7 +192,7 @@ export function BudgetsPage() {
                       value={selectedCategoryId}
                     >
                       <SelectTrigger
-                        className="w-full border-[#343840] bg-[#141619] text-[#EDEDED]"
+                        className="w-full border-border bg-background text-foreground"
                         id="budget-category"
                       >
                         <SelectValue placeholder="Select category" />
@@ -204,11 +207,11 @@ export function BudgetsPage() {
                     </Select>
                   </div>
                   <div className="grid gap-2">
-                    <Label className="text-[#8D929A]" htmlFor="budget-amount">
+                    <Label className="text-muted-foreground" htmlFor="budget-amount">
                       Amount
                     </Label>
                     <Input
-                      className="border-[#343840] bg-[#141619] text-[#EDEDED]"
+                      className="border-border bg-background text-foreground"
                       id="budget-amount"
                       inputMode="decimal"
                       min="0"
@@ -221,7 +224,7 @@ export function BudgetsPage() {
                   </div>
                   <div className="flex items-end">
                     <Button
-                      className="border-[#343840] bg-[#EDEDED] text-[#0B0B0C] hover:bg-white"
+                      className="border-border bg-foreground text-background hover:bg-foreground/90"
                       disabled={availableCategories.length === 0}
                       type="submit"
                     >
@@ -231,9 +234,9 @@ export function BudgetsPage() {
                 </form>
               ) : null}
 
-              <div className="divide-y divide-[#26282C]">
+              <div className="divide-y divide-border">
                 {budgets.length === 0 ? (
-                  <div className="px-5 py-12 text-sm text-[#858B94]">
+                  <div className="px-5 py-12 text-sm text-muted-foreground">
                     No budgets yet.
                   </div>
                 ) : (
@@ -245,24 +248,24 @@ export function BudgetsPage() {
             </CardContent>
           </Card>
 
-          <aside className="border border-[#26282C] bg-[#141619] p-5">
+          <aside className="border border-border bg-card p-5">
             <div className="grid gap-5">
               <div className="grid gap-1">
-                <p className="text-xs text-[#858B94]">Total tracked</p>
-                <p className="font-mono text-2xl text-white">
+                <p className="text-xs text-muted-foreground">Total tracked</p>
+                <p className="font-mono text-2xl">
                   {currencyFormatter.format(totals.spentCents / 100)}
                 </p>
-                <p className="text-xs text-[#858B94]">
+                <p className="text-xs text-muted-foreground">
                   of {currencyFormatter.format(totals.amountCents / 100)}
                 </p>
               </div>
               <div className="grid gap-2">
-                <div className="flex items-center justify-between text-xs text-[#858B94]">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
                   <span>Overall</span>
                   <span className="font-mono">{totals.percentage}%</span>
                 </div>
                 <Progress
-                  className="gap-0 [&_[data-slot=progress-indicator]]:bg-[#EDEDED] [&_[data-slot=progress-track]]:h-1.5 [&_[data-slot=progress-track]]:bg-[#25282D]"
+                  className="gap-0 [&_[data-slot=progress-indicator]]:bg-foreground [&_[data-slot=progress-track]]:h-1.5 [&_[data-slot=progress-track]]:bg-muted"
                   max={100}
                   value={Math.min(totals.percentage, 100)}
                 />
@@ -286,7 +289,7 @@ function BudgetRow({ budget }: Readonly<{ budget: Budget }>) {
 
   return (
     <div
-      className="grid gap-3 px-5 py-5 data-[exceeded=true]:bg-[#2A1414]/40"
+      className="grid gap-3 px-5 py-5 data-[exceeded=true]:bg-red-50"
       data-exceeded={isExceeded}
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 md:grid-cols-[minmax(0,1fr)_12rem_4rem]">
@@ -300,32 +303,32 @@ function BudgetRow({ budget }: Readonly<{ budget: Budget }>) {
           >
             <Icon className="size-3.5" weight="bold" />
           </span>
-          <span className="truncate text-sm font-medium text-white">
+          <span className="truncate text-sm font-medium">
             {budget.category.name}
           </span>
           {isExceeded ? (
-            <span className="inline-flex items-center gap-1 border border-[#ef4444]/50 bg-[#ef4444]/10 px-1.5 py-0.5 text-[10px] font-medium text-[#fca5a5] uppercase tracking-normal">
+            <span className="inline-flex items-center gap-1 border border-red-200 bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-600 uppercase tracking-normal">
               <WarningCircleIcon className="size-3" />
               Exceeded
             </span>
           ) : null}
         </div>
         <div
-          className="hidden text-right font-mono text-sm text-[#A6ABB3] data-[exceeded=true]:text-[#fca5a5] md:block"
+          className="hidden text-right font-mono text-sm text-muted-foreground data-[exceeded=true]:text-red-600 md:block"
           data-exceeded={isExceeded}
         >
           {currencyFormatter.format(budget.spentCents / 100)} of{" "}
           {currencyFormatter.format(budget.amountCents / 100)}
         </div>
         <div
-          className="text-right font-mono text-sm text-white data-[exceeded=true]:text-[#fca5a5]"
+          className="text-right font-mono text-sm data-[exceeded=true]:text-red-600"
           data-exceeded={isExceeded}
         >
           {percentage}%
         </div>
       </div>
       <Progress
-        className="gap-0 [&_[data-slot=progress-indicator]]:bg-[var(--budget-color)] [&_[data-slot=progress-indicator]]:shadow-[0_0_12px_var(--budget-color)] [&_[data-slot=progress-track]]:h-1.5 [&_[data-slot=progress-track]]:bg-[#25282D]"
+        className="gap-0 [&_[data-slot=progress-indicator]]:bg-[var(--budget-color)] [&_[data-slot=progress-track]]:h-1.5 [&_[data-slot=progress-track]]:bg-muted"
         max={100}
         style={
           {
@@ -335,11 +338,11 @@ function BudgetRow({ budget }: Readonly<{ budget: Budget }>) {
         value={Math.min(percentage, 100)}
       />
       {isExceeded ? (
-        <div className="font-mono text-xs text-[#fca5a5]">
+        <div className="font-mono text-xs text-red-600">
           Over by {currencyFormatter.format(overageCents / 100)}
         </div>
       ) : null}
-      <div className="font-mono text-xs text-[#858B94] md:hidden">
+      <div className="font-mono text-xs text-muted-foreground md:hidden">
         {currencyFormatter.format(budget.spentCents / 100)} of{" "}
         {currencyFormatter.format(budget.amountCents / 100)}
       </div>
