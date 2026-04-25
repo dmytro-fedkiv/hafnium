@@ -1,0 +1,35 @@
+{
+  "name": "@hafnium/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "nx": {
+    "name": "api",
+    "targets": {
+      "dev": {
+        "command": "tsx watch src/main.ts",
+        "options": {
+          "cwd": "apps/api"
+        }
+      },
+      "build": {
+        "command": "tsc -p tsconfig.json"
+      },
+      "typecheck": {
+        "command": "tsc -p tsconfig.json --noEmit"
+      },
+      "test": {
+        "command": "vitest run --passWithNoTests",
+        "options": {
+          "cwd": "apps/api"
+        }
+      },
+      "lint": {
+        "command": "eslint .",
+        "options": {
+          "cwd": "apps/api"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@hafnium/domain",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "nx": {
+    "name": "domain",
+    "targets": {
+      "build": {
+        "command": "tsc -p tsconfig.json --noEmit"
+      },
+      "typecheck": {
+        "command": "tsc -p tsconfig.json --noEmit"
+      },
+      "test": {
+        "command": "vitest run --passWithNoTests"
+      },
+      "lint": {
+        "command": "eslint ."
+      }
+    }
+  }
+}

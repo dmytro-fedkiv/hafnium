@@ -1,0 +1,56 @@
+{
+  "name": "@hafnium/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@hafnium/domain": "workspace:*",
+    "@hafnium/livestore-schema": "workspace:*",
+    "@livestore/adapter-web": "0.3.1",
+    "@livestore/livestore": "0.3.1",
+    "@livestore/peer-deps": "0.3.1",
+    "@livestore/react": "0.3.1",
+    "@livestore/wa-sqlite": "1.0.5-dev.2",
+    "@tanstack/react-router": "latest",
+    "@tanstack/react-start": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@livestore/devtools-vite": "0.3.1",
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest"
+  },
+  "nx": {
+    "name": "web",
+    "targets": {
+      "dev": {
+        "command": "vite dev",
+        "options": {
+          "cwd": "apps/web"
+        }
+      },
+      "build": {
+        "command": "vite build",
+        "options": {
+          "cwd": "apps/web"
+        }
+      },
+      "typecheck": {
+        "command": "tsc -p tsconfig.json --noEmit"
+      },
+      "test": {
+        "command": "vitest run --passWithNoTests",
+        "options": {
+          "cwd": "apps/web"
+        }
+      },
+      "lint": {
+        "command": "eslint .",
+        "options": {
+          "cwd": "apps/web"
+        }
+      }
+    }
+  }
+}
