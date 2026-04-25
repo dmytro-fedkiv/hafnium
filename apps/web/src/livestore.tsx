@@ -23,7 +23,7 @@ export function HafniumLiveStoreProvider({
         <main className="shell">Loading local store: {stage}</main>
       )}
       schema={schema}
-      storeId="hafnium-local-v0-1"
+      storeId="hafnium-local-v0-2"
     >
       {children}
     </LiveStoreProvider>
