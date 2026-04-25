@@ -188,17 +188,6 @@ export function TransactionDataTable({
         ),
       },
       {
-        accessorKey: "type",
-        header: "Type",
-        filterFn: (row, columnId, value) => {
-          if (!Array.isArray(value) || value.length === 0) {
-            return true;
-          }
-
-          return value.includes(row.getValue(columnId) as Transaction["type"]);
-        },
-      },
-      {
         accessorKey: "status",
         header: "Status",
         filterFn: (row, columnId, value) => {
