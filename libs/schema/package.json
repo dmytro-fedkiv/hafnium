@@ -16,16 +16,28 @@
     "name": "schema",
     "targets": {
       "build": {
-        "command": "tsc -p tsconfig.json --noEmit"
+        "command": "tsc -p tsconfig.json --noEmit",
+        "options": {
+          "cwd": "libs/schema"
+        }
       },
       "typecheck": {
-        "command": "tsc -p tsconfig.json --noEmit"
+        "command": "tsc -p tsconfig.json --noEmit",
+        "options": {
+          "cwd": "libs/schema"
+        }
       },
       "test": {
-        "command": "vitest run --passWithNoTests"
+        "command": "vitest run --passWithNoTests",
+        "options": {
+          "cwd": "libs/schema"
+        }
       },
       "lint": {
-        "command": "eslint ."
+        "command": "eslint .",
+        "options": {
+          "cwd": "libs/schema"
+        }
       }
     }
   }

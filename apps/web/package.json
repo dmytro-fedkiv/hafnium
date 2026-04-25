@@ -47,7 +47,10 @@
         }
       },
       "typecheck": {
-        "command": "tsc -p tsconfig.json --noEmit"
+        "command": "tsc -p tsconfig.json --noEmit",
+        "options": {
+          "cwd": "apps/web"
+        }
       },
       "test": {
         "command": "vitest run --passWithNoTests",

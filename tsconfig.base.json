@@ -9,9 +9,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
     "paths": {
-      "@hafnium/schema": ["libs/schema/src/index.ts"]
+      "@hafnium/schema": ["./libs/schema/src/index.ts"]
     }
   }
 }
