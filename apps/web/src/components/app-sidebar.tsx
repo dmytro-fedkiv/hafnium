@@ -19,6 +19,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useLocation } from "@tanstack/react-router";
 
 import {
   Command,
@@ -57,7 +58,6 @@ import { cn } from "@/lib/utils";
 type NavItem = {
   href: string;
   icon: Icon;
-  isActive?: boolean;
   label: string;
   marker?: ReactNode;
 };
@@ -82,7 +82,6 @@ const primaryNavItems: NavItem[] = [
   {
     href: "/insights",
     icon: LightbulbIcon,
-    isActive: true,
     label: "Insights",
     marker: (
       <span
@@ -177,6 +176,10 @@ export function AppShell({ children }: Readonly<{ children: ReactNode }>) {
 }
 
 function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
+  const pathname = useLocation({
+    select: (location) => location.pathname,
+  });
+
   return (
     <Sidebar className="border-[#1F1F23] text-[#9A9AA0]" collapsible="icon">
       <SidebarHeader className="gap-3 px-2 py-3">
@@ -218,7 +221,11 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
           <SidebarGroupContent>
             <SidebarMenu>
               {primaryNavItems.map((item) => (
-                <PrimaryNavItem item={item} key={item.label} />
+                <PrimaryNavItem
+                  isActive={isNavItemActive(pathname, item.href)}
+                  item={item}
+                  key={item.label}
+                />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -275,14 +282,17 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
   );
 }
 
-function PrimaryNavItem({ item }: Readonly<{ item: NavItem }>) {
+function PrimaryNavItem({
+  isActive,
+  item,
+}: Readonly<{ isActive: boolean; item: NavItem }>) {
   const Icon = item.icon;
 
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
         className={sidebarButtonClassName}
-        isActive={item.isActive}
+        isActive={isActive}
         render={
           <a href={item.href}>
             <Icon className="size-4 shrink-0 opacity-70" />
@@ -301,6 +311,14 @@ function PrimaryNavItem({ item }: Readonly<{ item: NavItem }>) {
       ) : null}
     </SidebarMenuItem>
   );
+}
+
+function isNavItemActive(pathname: string, href: string) {
+  if (href === "/dashboard") {
+    return pathname === "/" || pathname === "/dashboard";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 function AccountNavItem({ account }: Readonly<{ account: AccountItem }>) {
