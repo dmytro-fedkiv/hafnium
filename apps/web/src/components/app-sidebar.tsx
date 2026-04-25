@@ -251,12 +251,12 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
             <SidebarMenuButton
               className={sidebarButtonClassName}
               render={
-                <Link to="/settings">
+                <a href="/settings">
                   <GearSixIcon className="size-4 shrink-0 opacity-70" />
                   <span className="min-w-0 flex-1 truncate group-data-[collapsible=icon]:sr-only">
                     Settings
                   </span>
-                </Link>
+                </a>
               }
               title="Settings"
             />
@@ -265,12 +265,12 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
             <SidebarMenuButton
               className={sidebarButtonClassName}
               render={
-                <Link to="/profile">
+                <a href="/profile">
                   <UserCircleIcon className="size-4 shrink-0 opacity-70" />
                   <span className="min-w-0 flex-1 truncate group-data-[collapsible=icon]:sr-only">
                     Profile
                   </span>
-                </Link>
+                </a>
               }
               title="Profile"
             />

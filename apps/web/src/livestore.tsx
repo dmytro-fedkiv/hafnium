@@ -4,6 +4,7 @@ import LiveStoreSharedWorker from "@livestore/adapter-web/shared-worker?sharedwo
 import { LiveStoreProvider } from "@livestore/react";
 import type { ReactNode } from "react";
 import { unstable_batchedUpdates as batchUpdates } from "react-dom";
+import { AppLoadingScreen } from "./components/app-loading-screen";
 import LiveStoreWorker from "./livestore.worker?worker";
 
 const adapter = makePersistedAdapter({
@@ -19,9 +20,7 @@ export function HafniumLiveStoreProvider({
     <LiveStoreProvider
       adapter={adapter}
       batchUpdates={batchUpdates}
-      renderLoading={({ stage }) => (
-        <main className="shell">Loading local store: {stage}</main>
-      )}
+      renderLoading={({ stage }) => <AppLoadingScreen stage={stage} />}
       schema={schema}
       storeId="hafnium-local-v0-2"
     >
