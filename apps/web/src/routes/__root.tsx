@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { lazy, Suspense, type ReactNode } from "react";
+import { AppShell } from "../components/app-sidebar";
 import "../styles.css";
 
 const HafniumLiveStoreProvider = lazy(() =>
@@ -37,7 +38,9 @@ function RootComponent() {
           fallback={<main className="shell">Loading local store...</main>}
         >
           <HafniumLiveStoreProvider>
-            <Outlet />
+            <AppShell>
+              <Outlet />
+            </AppShell>
           </HafniumLiveStoreProvider>
         </Suspense>
       </ClientOnly>
