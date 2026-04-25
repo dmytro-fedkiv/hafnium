@@ -1,5 +1,9 @@
-import { createTransaction, type TransactionType } from "@hafnium/domain";
-import { events, tables } from "@hafnium/livestore-schema";
+import {
+  createTransaction,
+  events,
+  tables,
+  type TransactionType,
+} from "@hafnium/schema";
 import { queryDb } from "@livestore/livestore";
 import { useStore } from "@livestore/react";
 import { type FormEvent, useMemo } from "react";

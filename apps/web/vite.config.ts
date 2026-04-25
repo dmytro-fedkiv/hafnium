@@ -16,6 +16,6 @@ export default defineConfig({
   plugins: [
     tanstackStart(),
     viteReact(),
-    livestoreDevtoolsPlugin({ schemaPath: "../../libs/livestore-schema/src/index.ts" }),
+    livestoreDevtoolsPlugin({ schemaPath: "../../libs/schema/src/index.ts" }),
   ],
 });

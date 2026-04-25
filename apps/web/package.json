@@ -4,8 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@hafnium/domain": "workspace:*",
-    "@hafnium/livestore-schema": "workspace:*",
+    "@hafnium/schema": "workspace:*",
     "@livestore/adapter-web": "0.3.1",
     "@livestore/livestore": "0.3.1",
     "@livestore/peer-deps": "0.3.1",

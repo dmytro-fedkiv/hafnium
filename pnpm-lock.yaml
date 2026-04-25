@@ -55,12 +55,9 @@ importers:
 
   apps/web:
     dependencies:
-      '@hafnium/domain':
+      '@hafnium/schema':
         specifier: workspace:*
-        version: link:../../libs/domain
-      '@hafnium/livestore-schema':
-        specifier: workspace:*
-        version: link:../../libs/livestore-schema
+        version: link:../../libs/schema
       '@livestore/adapter-web':
         specifier: 0.3.1
         version: 0.3.1(lwca2zkfnfnnx5tuzupcqin2hy)
@@ -99,9 +96,7 @@ importers:
         specifier: latest
         version: 8.0.10(@types/node@25.6.0)(esbuild@0.27.7)(tsx@4.21.0)(yaml@2.8.3)
 
-  libs/domain: {}
-
-  libs/livestore-schema:
+  libs/schema:
     dependencies:
       '@livestore/livestore':
         specifier: 0.3.1

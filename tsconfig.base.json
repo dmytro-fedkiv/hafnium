@@ -11,8 +11,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@hafnium/domain": ["libs/domain/src/index.ts"],
-      "@hafnium/livestore-schema": ["libs/livestore-schema/src/index.ts"]
+      "@hafnium/schema": ["libs/schema/src/index.ts"]
     }
   }
 }

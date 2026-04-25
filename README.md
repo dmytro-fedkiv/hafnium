@@ -8,8 +8,7 @@ This first slice intentionally includes only:
 
 ```text
 apps/web
-libs/domain
-libs/livestore-schema
+libs/schema
 ```
 
 Mobile, API, worker, sync, bank connections, CSV import, and reports are later steps.
@@ -26,8 +25,7 @@ Create transaction
 ## Packages
 
 - `apps/web`: TanStack Start web UI with a transaction form and list.
-- `libs/domain`: Shared finance transaction types and factory.
-- `libs/livestore-schema`: LiveStore table, events, materializers, and schema.
+- `libs/schema`: Shared transaction types, factory, LiveStore table, events, materializers, and schema.
 
 ## Scripts
 
