@@ -19,7 +19,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 
 import {
   Command,
@@ -184,17 +184,17 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
     <Sidebar className="border-[#1F1F23] text-[#9A9AA0]" collapsible="icon">
       <SidebarHeader className="gap-3 px-2 py-3">
         <div className="grid h-8 grid-cols-[minmax(0,1fr)_2rem] items-center gap-2 group-data-[collapsible=icon]:grid-cols-1">
-          <a
+          <Link
             aria-label="hafnium home"
             className="flex h-8 min-w-0 items-center gap-2 px-2 text-sm font-medium leading-none text-white outline-none transition-colors hover:bg-[#17171A] focus-visible:ring-2 focus-visible:ring-[#34343A] group-data-[collapsible=icon]:hidden"
-            href="/"
+            to="/"
             title="hafnium"
           >
             <CubeIcon className="size-4 shrink-0 opacity-70" />
             <span className="min-w-0 truncate group-data-[collapsible=icon]:sr-only">
               hafnium
             </span>
-          </a>
+          </Link>
           <SidebarTrigger className="size-8 text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] group-data-[collapsible=icon]:mx-auto" />
         </div>
         <SidebarMenu>
@@ -251,12 +251,12 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
             <SidebarMenuButton
               className={sidebarButtonClassName}
               render={
-                <a href="/settings">
+                <Link to="/settings">
                   <GearSixIcon className="size-4 shrink-0 opacity-70" />
                   <span className="min-w-0 flex-1 truncate group-data-[collapsible=icon]:sr-only">
                     Settings
                   </span>
-                </a>
+                </Link>
               }
               title="Settings"
             />
@@ -265,12 +265,12 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
             <SidebarMenuButton
               className={sidebarButtonClassName}
               render={
-                <a href="/profile">
+                <Link to="/profile">
                   <UserCircleIcon className="size-4 shrink-0 opacity-70" />
                   <span className="min-w-0 flex-1 truncate group-data-[collapsible=icon]:sr-only">
                     Profile
                   </span>
-                </a>
+                </Link>
               }
               title="Profile"
             />
@@ -294,12 +294,12 @@ function PrimaryNavItem({
         className={sidebarButtonClassName}
         isActive={isActive}
         render={
-          <a href={item.href}>
+          <Link to={item.href}>
             <Icon className="size-4 shrink-0 opacity-70" />
             <span className="min-w-0 flex-1 truncate group-data-[collapsible=icon]:sr-only">
               {item.label}
             </span>
-          </a>
+          </Link>
         }
         title={item.label}
         tooltip={item.label}
@@ -329,7 +329,7 @@ function AccountNavItem({ account }: Readonly<{ account: AccountItem }>) {
       <SidebarMenuSubButton
         className="h-9 px-3 text-[13px] text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] group-data-[collapsible=icon]:hidden"
         render={
-          <a href={href}>
+          <Link to={href}>
             <span className="size-1.5 shrink-0 rounded-full bg-[#6F6F76]" />
             <span className="min-w-0 flex-1 truncate">{account.label}</span>
             <span
@@ -340,7 +340,7 @@ function AccountNavItem({ account }: Readonly<{ account: AccountItem }>) {
             >
               {compactFormatter.format(account.balance)}
             </span>
-          </a>
+          </Link>
         }
         title={account.label}
       />
