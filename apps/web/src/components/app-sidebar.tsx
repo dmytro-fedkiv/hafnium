@@ -200,7 +200,7 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              className="h-9 px-3 text-[13px] text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] data-[active=true]:bg-[#1F1F23] group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0!"
+              className="h-9 px-3 text-[13px] text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] data-[active=true]:bg-[#1F1F23] group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:h-9! group-data-[collapsible=icon]:w-8! group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0!"
               onClick={onOpenSearch}
               title="Search"
             >
@@ -349,7 +349,7 @@ function AccountNavItem({ account }: Readonly<{ account: AccountItem }>) {
 }
 
 const sidebarButtonClassName =
-  "h-9 px-3 text-[13px] text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] data-[active=true]:bg-[#1F1F23] data-[active=true]:text-white data-[active=true]:font-medium group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:size-8!";
+  "h-9 px-3 text-[13px] text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] data-[active=true]:bg-[#1F1F23] data-[active=true]:text-white data-[active=true]:font-medium group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:h-9! group-data-[collapsible=icon]:w-8!";
 
 function GlobalSearch({
   isOpen,
