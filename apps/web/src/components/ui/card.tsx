@@ -5,19 +5,14 @@ import { cn } from "@/lib/utils";
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn(
-        "bg-card text-card-foreground rounded-xl border shadow-sm",
-        className,
-      )}
+      className={cn("bg-card text-card-foreground border shadow-sm", className)}
       {...props}
     />
   );
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div className={cn("grid gap-1.5 p-6", className)} {...props} />
-  );
+  return <div className={cn("grid gap-1.5 p-6", className)} {...props} />;
 }
 
 function CardTitle({ className, ...props }: React.ComponentProps<"h2">) {

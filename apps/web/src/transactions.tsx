@@ -1,12 +1,3 @@
-import {
-  createTransaction,
-  events,
-  tables,
-  type TransactionType,
-} from "@hafnium/schema";
-import { queryDb } from "@livestore/livestore";
-import { useStore } from "@livestore/react";
-import { type FormEvent, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +8,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  createTransaction,
+  events,
+  tables,
+  type TransactionType,
+} from "@hafnium/schema";
+import { queryDb } from "@livestore/livestore";
+import { useStore } from "@livestore/react";
+import { type FormEvent, useMemo } from "react";
 
 const transactions$ = queryDb(
   () => tables.transactions.where({ deletedAt: null }).orderBy("date", "desc"),
@@ -124,7 +124,7 @@ export function TransactionsPage() {
             <div className="grid gap-2 sm:max-w-48">
               <Label htmlFor="type">Type</Label>
               <select
-                className="border-input bg-background ring-offset-background focus-visible:border-ring focus-visible:ring-ring/50 h-9 rounded-md border px-3 py-1 text-sm shadow-xs outline-none focus-visible:ring-[3px]"
+                className="border-input bg-background ring-offset-background focus-visible:border-ring focus-visible:ring-ring/50 h-9 border px-3 py-1 text-sm shadow-xs outline-none focus-visible:ring-[3px]"
                 defaultValue="expense"
                 id="type"
                 name="type"
@@ -155,7 +155,7 @@ export function TransactionsPage() {
               <ul className="grid gap-3">
                 {transactions.map((transaction) => (
                   <li
-                    className="bg-background flex items-center justify-between rounded-lg border p-4"
+                    className="bg-background flex items-center justify-between border p-4"
                     key={transaction.id}
                   >
                     <div>
