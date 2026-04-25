@@ -135,7 +135,6 @@ export function BudgetsPage() {
         amountCents,
         category,
         spentCents: 0,
-        status: "active",
       },
     ]);
     setAmount("");
