@@ -9,6 +9,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   createTransaction,
   events,
   tables,
@@ -16,7 +23,7 @@ import {
 } from "@hafnium/schema";
 import { queryDb } from "@livestore/livestore";
 import { useStore } from "@livestore/react";
-import { type FormEvent, useMemo } from "react";
+import { type FormEvent, useMemo, useState } from "react";
 
 const transactions$ = queryDb(
   () => tables.transactions.where({ deletedAt: null }).orderBy("date", "desc"),
@@ -32,6 +39,21 @@ export function TransactionsPage() {
   const { store } = useStore();
   const transactions = store.useQuery(transactions$);
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  const [transactionType, setTransactionType] =
+    useState<TransactionType>("Expense");
+  const [transactionFilter, setTransactionFilter] = useState<
+    "all" | TransactionType
+  >("all");
+
+  const visibleTransactions = useMemo(() => {
+    if (transactionFilter === "all") {
+      return transactions;
+    }
+
+    return transactions.filter(
+      (transaction) => transaction.type === transactionFilter,
+    );
+  }, [transactionFilter, transactions]);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -51,6 +73,7 @@ export function TransactionsPage() {
 
     store.commit(events.transactionCreated(transaction));
     form.reset();
+    setTransactionType("expense");
   }
 
   return (
@@ -123,15 +146,25 @@ export function TransactionsPage() {
             </div>
             <div className="grid gap-2 sm:max-w-48">
               <Label htmlFor="type">Type</Label>
-              <select
-                className="border-input bg-background ring-offset-background focus-visible:border-ring focus-visible:ring-ring/50 h-9 border px-3 py-1 text-sm shadow-xs outline-none focus-visible:ring-[3px]"
-                defaultValue="expense"
-                id="type"
-                name="type"
+              <input name="type" type="hidden" value={transactionType} />
+              <Select
+                onValueChange={(value) =>
+                  setTransactionType(value as TransactionType)
+                }
+                value={transactionType}
               >
-                <option value="expense">Expense</option>
-                <option value="income">Income</option>
-              </select>
+                <SelectTrigger
+                  aria-label="Type"
+                  className="w-full justify-between sm:max-w-48"
+                  name="type"
+                >
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Expense">Expense</SelectItem>
+                  <SelectItem value="Income">Income</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <Button className="w-fit" type="submit">
               Add transaction
@@ -148,12 +181,35 @@ export function TransactionsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <section aria-labelledby="transaction-list-heading">
-            {transactions.length === 0 ? (
+          <section
+            aria-labelledby="transaction-list-heading"
+            className="grid gap-4"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-muted-foreground text-sm">
+                {visibleTransactions.length} shown
+              </p>
+              <Select
+                onValueChange={(value) =>
+                  setTransactionFilter(value as "all" | TransactionType)
+                }
+                value={transactionFilter}
+              >
+                <SelectTrigger className="min-w-36">
+                  <SelectValue placeholder="Filter transactions" />
+                </SelectTrigger>
+                <SelectContent align="end">
+                  <SelectItem value="all">All transactions</SelectItem>
+                  <SelectItem value="expense">Expenses</SelectItem>
+                  <SelectItem value="income">Income</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {visibleTransactions.length === 0 ? (
               <p className="text-muted-foreground">No transactions yet.</p>
             ) : (
               <ul className="grid gap-3">
-                {transactions.map((transaction) => (
+                {visibleTransactions.map((transaction) => (
                   <li
                     className="bg-background flex items-center justify-between border p-4"
                     key={transaction.id}
