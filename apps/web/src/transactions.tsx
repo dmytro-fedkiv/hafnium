@@ -1,3 +1,6 @@
+import { DownloadSimpleIcon, PlusIcon } from "@phosphor-icons/react";
+import { useMemo, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,29 +9,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  createMockTransaction,
+  mockTransactions,
+} from "./features/transactions/mock-transactions";
+import { TransactionDataTable } from "./features/transactions/transaction-data-table";
+import { TransactionDetailsPanel } from "./features/transactions/transaction-details-panel";
+import { TransactionForm } from "./features/transactions/transaction-form";
 import {
-  createTransaction,
-  events,
-  tables,
-  type TransactionType,
-} from "@hafnium/schema";
-import { queryDb } from "@livestore/livestore";
-import { useStore } from "@livestore/react";
-import { type FormEvent, useMemo, useState } from "react";
-
-const transactions$ = queryDb(
-  () => tables.transactions.where({ deletedAt: null }).orderBy("date", "desc"),
-  { label: "transactions" },
-);
+  type Transaction,
+  type TransactionDraft,
+} from "./features/transactions/transaction-types";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
@@ -36,208 +27,219 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export function TransactionsPage() {
-  const { store } = useStore();
-  const transactions = store.useQuery(transactions$);
-  const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
-  const [transactionType, setTransactionType] =
-    useState<TransactionType>("Expense");
-  const [transactionFilter, setTransactionFilter] = useState<
-    "all" | TransactionType
-  >("all");
+  const [transactions, setTransactions] =
+    useState<Transaction[]>(mockTransactions);
+  const [filteredTransactions, setFilteredTransactions] =
+    useState<Transaction[]>(mockTransactions);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
-  const visibleTransactions = useMemo(() => {
-    if (transactionFilter === "all") {
-      return transactions;
+  const summary = useMemo(() => {
+    const totalIncome = filteredTransactions
+      .filter((transaction) => transaction.type === "income")
+      .reduce((sum, transaction) => sum + transaction.amountCents, 0);
+    const totalExpenses = filteredTransactions
+      .filter((transaction) => transaction.type === "expense")
+      .reduce((sum, transaction) => sum + transaction.amountCents, 0);
+    const pendingAmount = filteredTransactions
+      .filter((transaction) => transaction.status === "pending")
+      .reduce(
+        (sum, transaction) =>
+          sum +
+          (transaction.type === "income"
+            ? transaction.amountCents
+            : -transaction.amountCents),
+        0,
+      );
+    const netAmount = totalIncome - totalExpenses;
+
+    return {
+      netAmount,
+      pendingAmount,
+      totalExpenses,
+      totalIncome,
+    };
+  }, [filteredTransactions]);
+
+  function openAddTransaction() {
+    setEditingTransaction(null);
+    setIsFormOpen(true);
+  }
+
+  function handleSubmitTransaction(draft: TransactionDraft) {
+    if (editingTransaction) {
+      setTransactions((current) =>
+        current.map((transaction) =>
+          transaction.id === editingTransaction.id
+            ? { ...transaction, ...draft, note: draft.note || undefined }
+            : transaction,
+        ),
+      );
+      setSelectedTransaction((current) =>
+        current?.id === editingTransaction.id
+          ? { ...editingTransaction, ...draft, note: draft.note || undefined }
+          : current,
+      );
+      setEditingTransaction(null);
+      return;
     }
 
-    return transactions.filter(
-      (transaction) => transaction.type === transactionFilter,
+    setTransactions((current) => [createMockTransaction(draft), ...current]);
+  }
+
+  function handleEditTransaction(transaction: Transaction) {
+    setEditingTransaction(transaction);
+    setIsDetailsOpen(false);
+    setIsFormOpen(true);
+  }
+
+  function handleDeleteTransaction(transaction: Transaction) {
+    setTransactions((current) =>
+      current.filter((entry) => entry.id !== transaction.id),
     );
-  }, [transactionFilter, transactions]);
-
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const amount = Number(formData.get("amount") ?? 0);
-    const type = String(formData.get("type") ?? "expense") as TransactionType;
-
-    const transaction = createTransaction({
-      amountCents: Math.round(Math.abs(amount) * 100),
-      category: String(formData.get("category") ?? "").trim(),
-      date: String(formData.get("date") ?? today),
-      description: String(formData.get("description") ?? "").trim(),
-      type,
-    });
-
-    store.commit(events.transactionCreated(transaction));
-    form.reset();
-    setTransactionType("expense");
+    setSelectedTransaction((current) =>
+      current?.id === transaction.id ? null : current,
+    );
+    setIsDetailsOpen(false);
+    if (editingTransaction?.id === transaction.id) {
+      setEditingTransaction(null);
+    }
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 px-6 py-16">
-      <section className="space-y-3">
-        <p className="text-muted-foreground text-sm font-bold tracking-[0.16em] uppercase">
-          hafnium v0.1
-        </p>
-        <h1 className="text-5xl font-bold tracking-tight md:text-7xl">
-          Transactions
-        </h1>
-        <p className="text-muted-foreground max-w-2xl text-lg">
-          Create transactions locally with LiveStore and list the current local
-          state.
-        </p>
-      </section>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Add transaction</CardTitle>
-          <CardDescription>
-            Stored locally through a LiveStore transaction event.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="grid gap-4" onSubmit={onSubmit}>
-            <div className="grid gap-4 md:grid-cols-5">
-              <div className="grid gap-2">
-                <Label htmlFor="amount">Amount</Label>
-                <Input
-                  id="amount"
-                  min="0.01"
-                  name="amount"
-                  placeholder="24.50"
-                  required
-                  step="0.01"
-                  type="number"
-                />
-              </div>
-              <div className="grid gap-2 md:col-span-2">
-                <Label htmlFor="description">Description</Label>
-                <Input
-                  id="description"
-                  name="description"
-                  placeholder="Groceries"
-                  required
-                  type="text"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="date">Date</Label>
-                <Input
-                  defaultValue={today}
-                  id="date"
-                  name="date"
-                  required
-                  type="date"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="category">Category</Label>
-                <Input
-                  id="category"
-                  name="category"
-                  placeholder="Food"
-                  required
-                  type="text"
-                />
-              </div>
-            </div>
-            <div className="grid gap-2 sm:max-w-48">
-              <Label htmlFor="type">Type</Label>
-              <input name="type" type="hidden" value={transactionType} />
-              <Select
-                onValueChange={(value) =>
-                  setTransactionType(value as TransactionType)
-                }
-                value={transactionType}
-              >
-                <SelectTrigger
-                  aria-label="Type"
-                  className="w-full justify-between sm:max-w-48"
-                  name="type"
-                >
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Expense">Expense</SelectItem>
-                  <SelectItem value="Income">Income</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <Button className="w-fit" type="submit">
+    <main className="min-h-screen bg-background">
+      <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-6 px-8 py-8">
+        <section className="flex flex-col gap-4 border-b border-border pb-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="grid gap-2">
+            <p className="text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
+              Hafnum v0.1
+            </p>
+            <h1 className="text-4xl font-medium tracking-tight text-foreground">
+              Transactions
+            </h1>
+            <p className="max-w-2xl text-sm text-muted-foreground">
+              Create, filter, and inspect your local transaction history.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button type="button" variant="outline">
+              <DownloadSimpleIcon className="size-4" />
+              Import CSV
+            </Button>
+            <Button onClick={openAddTransaction} type="button">
+              <PlusIcon className="size-4" />
               Add transaction
             </Button>
-          </form>
-        </CardContent>
-      </Card>
+          </div>
+        </section>
 
-      <Card>
-        <CardHeader>
-          <CardTitle id="transaction-list-heading">Transaction list</CardTitle>
-          <CardDescription>
-            Current local state from the LiveStore query.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <section
-            aria-labelledby="transaction-list-heading"
-            className="grid gap-4"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-muted-foreground text-sm">
-                {visibleTransactions.length} shown
-              </p>
-              <Select
-                onValueChange={(value) =>
-                  setTransactionFilter(value as "all" | TransactionType)
-                }
-                value={transactionFilter}
-              >
-                <SelectTrigger className="min-w-36">
-                  <SelectValue placeholder="Filter transactions" />
-                </SelectTrigger>
-                <SelectContent align="end">
-                  <SelectItem value="all">All transactions</SelectItem>
-                  <SelectItem value="expense">Expenses</SelectItem>
-                  <SelectItem value="income">Income</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            {visibleTransactions.length === 0 ? (
-              <p className="text-muted-foreground">No transactions yet.</p>
-            ) : (
-              <ul className="grid gap-3">
-                {visibleTransactions.map((transaction) => (
-                  <li
-                    className="bg-background flex items-center justify-between border p-4"
-                    key={transaction.id}
-                  >
-                    <div>
-                      <strong>{transaction.description}</strong>
-                      <div className="text-muted-foreground text-sm">
-                        {transaction.date} · {transaction.category} ·{" "}
-                        {transaction.type}
-                      </div>
-                    </div>
-                    <strong
-                      className={
-                        transaction.type === "expense"
-                          ? "text-destructive"
-                          : "text-emerald-700"
-                      }
-                    >
-                      {transaction.type === "expense" ? "-" : "+"}
-                      {currencyFormatter.format(transaction.amountCents / 100)}
-                    </strong>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        </CardContent>
-      </Card>
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <SummaryCard
+            label="Total income"
+            tone="income"
+            value={formatSignedCurrency(summary.totalIncome)}
+          />
+          <SummaryCard
+            label="Total expenses"
+            tone="expense"
+            value={formatSignedCurrency(-summary.totalExpenses)}
+          />
+          <SummaryCard
+            label="Pending amount"
+            tone="pending"
+            value={formatSignedCurrency(summary.pendingAmount)}
+          />
+          <SummaryCard
+            label="Net amount"
+            tone="net"
+            value={formatSignedCurrency(summary.netAmount)}
+          />
+        </section>
+
+        <Card className="gap-0 py-0">
+          <CardContent className="px-0">
+            <TransactionDataTable
+              onDeleteTransaction={handleDeleteTransaction}
+              onEditTransaction={handleEditTransaction}
+              onFilteredTransactionsChange={setFilteredTransactions}
+              onViewTransaction={(transaction) => {
+                setSelectedTransaction(transaction);
+                setIsDetailsOpen(true);
+              }}
+              transactions={transactions}
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      <TransactionForm
+        onOpenChange={setIsFormOpen}
+        onSubmit={handleSubmitTransaction}
+        open={isFormOpen}
+        transaction={editingTransaction}
+      />
+
+      <TransactionDetailsPanel
+        onDelete={() =>
+          selectedTransaction
+            ? handleDeleteTransaction(selectedTransaction)
+            : undefined
+        }
+        onEdit={() =>
+          selectedTransaction
+            ? handleEditTransaction(selectedTransaction)
+            : undefined
+        }
+        onOpenChange={setIsDetailsOpen}
+        open={isDetailsOpen}
+        transaction={selectedTransaction}
+      />
     </main>
   );
+}
+
+function SummaryCard({
+  label,
+  tone,
+  value,
+}: Readonly<{
+  label: string;
+  tone: "income" | "expense" | "pending" | "net";
+  value: string;
+}>) {
+  const toneClassName =
+    tone === "income"
+      ? "text-emerald-700"
+      : tone === "expense"
+        ? "text-red-700"
+        : tone === "net" || tone === "pending"
+          ? value.startsWith("-")
+            ? "text-red-700"
+            : "text-emerald-700"
+          : "text-foreground";
+
+  return (
+    <Card size="sm">
+      <CardHeader className="gap-2 py-3">
+        <CardDescription>{label}</CardDescription>
+        <CardTitle className={toneClassName}>
+          <span className="font-mono text-2xl">{value}</span>
+        </CardTitle>
+      </CardHeader>
+    </Card>
+  );
+}
+
+function formatSignedCurrency(amountCents: number) {
+  const absoluteValue = currencyFormatter.format(Math.abs(amountCents) / 100);
+
+  if (amountCents === 0) {
+    return absoluteValue;
+  }
+
+  return `${amountCents > 0 ? "+" : "-"}${absoluteValue}`;
 }

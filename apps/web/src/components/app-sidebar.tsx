@@ -78,7 +78,7 @@ type CommandGroupData = {
 
 const primaryNavItems: NavItem[] = [
   { href: "/dashboard", icon: HouseIcon, label: "Dashboard" },
-  { href: "/", icon: CreditCardIcon, label: "Transactions" },
+  { href: "/transactions", icon: CreditCardIcon, label: "Transactions" },
   {
     href: "/insights",
     icon: LightbulbIcon,

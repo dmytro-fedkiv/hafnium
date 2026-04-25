@@ -1,6 +1,6 @@
 import { Events, makeSchema, Schema, State } from "@livestore/livestore";
 
-export type TransactionType = "income" | "expense";
+export type TransactionType = "Income" | "Expense";
 
 export interface Transaction {
   readonly id: string;
@@ -49,7 +49,7 @@ export const events = {
       amountCents: Schema.Number,
       description: Schema.String,
       date: Schema.String,
-      type: Schema.Literal("income", "expense"),
+      type: Schema.Literal("Income", "Expense"),
       category: Schema.String,
     }),
   }),
@@ -60,7 +60,7 @@ export const events = {
       amountCents: Schema.Number,
       description: Schema.String,
       date: Schema.String,
-      type: Schema.Literal("income", "expense"),
+      type: Schema.Literal("Income", "Expense"),
       category: Schema.String,
     }),
   }),
