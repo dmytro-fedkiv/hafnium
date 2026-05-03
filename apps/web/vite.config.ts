@@ -1,11 +1,13 @@
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import { livestoreDevtoolsPlugin } from "@livestore/devtools-vite";
 import tailwindcss from "@tailwindcss/vite";
 import viteReact from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ["@livestore/wa-sqlite"],
+  },
   server: {
     port: 3000,
   },
@@ -21,6 +23,5 @@ export default defineConfig({
     tailwindcss(),
     tanstackStart(),
     viteReact(),
-    livestoreDevtoolsPlugin({ schemaPath: "../../libs/schema/src/index.ts" }),
   ],
 });

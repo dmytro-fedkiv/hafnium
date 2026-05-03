@@ -1,28 +1,22 @@
 /// <reference types="vite/client" />
 
+import { WarningCircleIcon } from "@phosphor-icons/react";
 import {
   ClientOnly,
   createRootRoute,
-  Link,
   HeadContent,
+  Link,
   Outlet,
   Scripts,
-  type ErrorComponentProps,
-  type NotFoundRouteProps,
   useLocation,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { lazy, Suspense, type ReactNode } from "react";
-import { WarningCircleIcon } from "@phosphor-icons/react";
+import { Suspense, type ReactNode } from "react";
 import { AppLoadingScreen } from "../components/app-loading-screen";
 import { AppShell } from "../components/app-sidebar";
 import { Button } from "../components/ui/button";
+import { HafniumLiveStoreProvider } from "../livestore/provider";
 import "../styles.css";
-
-const HafniumLiveStoreProvider = lazy(() =>
-  import("../livestore").then((module) => ({
-    default: module.HafniumLiveStoreProvider,
-  })),
-);
 
 export const Route = createRootRoute({
   head: () => ({
@@ -65,7 +59,7 @@ function RootErrorComponent({ error, reset }: ErrorComponentProps) {
   );
 }
 
-function RootNotFoundComponent(_props: NotFoundRouteProps) {
+function RootNotFoundComponent() {
   return (
     <RootDocument>
       <ClientOnly fallback={<LoadingShell />}>
@@ -152,7 +146,8 @@ function ErrorScreen({
                   {diagnostics.code}
                 </p>
                 <p>
-                  <span className="text-muted-foreground">Time:</span> {timestamp}
+                  <span className="text-muted-foreground">Time:</span>{" "}
+                  {timestamp}
                 </p>
                 <p className="leading-6">
                   <span className="text-muted-foreground">Details:</span>{" "}
@@ -213,11 +208,14 @@ function NotFoundScreen() {
             <div className="w-full border border-border px-5 py-4 text-left">
               <div className="grid gap-2 font-mono text-sm">
                 <p>
-                  <span className="text-muted-foreground">Requested route:</span>{" "}
+                  <span className="text-muted-foreground">
+                    Requested route:
+                  </span>{" "}
                   {pathname}
                 </p>
                 <p>
-                  <span className="text-muted-foreground">Time:</span> {timestamp}
+                  <span className="text-muted-foreground">Time:</span>{" "}
+                  {timestamp}
                 </p>
               </div>
             </div>

@@ -13,10 +13,16 @@
         }
       },
       "build": {
-        "command": "tsc -p tsconfig.json"
+        "command": "tsc -p tsconfig.json",
+        "options": {
+          "cwd": "apps/api"
+        }
       },
       "typecheck": {
-        "command": "tsc -p tsconfig.json --noEmit"
+        "command": "tsc -p tsconfig.json --noEmit",
+        "options": {
+          "cwd": "apps/api"
+        }
       },
       "test": {
         "command": "vitest run --passWithNoTests",

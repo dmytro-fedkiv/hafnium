@@ -10,7 +10,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "paths": {
-      "@hafnium/schema": ["./libs/schema/src/index.ts"]
+      "@hafnium/engine": ["./libs/engine/src/index.ts"]
     }
   }
 }

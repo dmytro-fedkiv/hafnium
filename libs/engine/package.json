@@ -1,5 +1,5 @@
 {
-  "name": "@hafnium/schema",
+  "name": "@hafnium/engine",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,33 +10,34 @@
     }
   },
   "dependencies": {
-    "@livestore/livestore": "0.3.1"
+    "@livestore/livestore": "0.4.0-dev.22",
+    "effect": "3.19.12"
   },
   "nx": {
-    "name": "schema",
+    "name": "engine",
     "targets": {
       "build": {
         "command": "tsc -p tsconfig.json --noEmit",
         "options": {
-          "cwd": "libs/schema"
+          "cwd": "libs/engine"
         }
       },
       "typecheck": {
         "command": "tsc -p tsconfig.json --noEmit",
         "options": {
-          "cwd": "libs/schema"
+          "cwd": "libs/engine"
         }
       },
       "test": {
         "command": "vitest run --passWithNoTests",
         "options": {
-          "cwd": "libs/schema"
+          "cwd": "libs/engine"
         }
       },
       "lint": {
         "command": "eslint .",
         "options": {
-          "cwd": "libs/schema"
+          "cwd": "libs/engine"
         }
       }
     }

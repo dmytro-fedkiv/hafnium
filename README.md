@@ -1,17 +1,20 @@
 # hafnium
 
-hafnium v0.1 is a local-first web app where you can add and list transactions.
+hafnium v0.1 is a local-first personal finance app.
 
 ## Scope
 
 This first slice intentionally includes only:
 
 ```text
+apps/api
+apps/desktop
+apps/mobile
 apps/web
-libs/schema
+libs/engine
 ```
 
-Mobile, API, worker, sync, bank connections, CSV import, and reports are later steps.
+The UI surfaces are separated from the local engine and cloud API. Desktop and mobile are scaffolded as workspace apps so they can grow without changing the package map again.
 
 ## Current Flow
 
@@ -19,13 +22,17 @@ Mobile, API, worker, sync, bank connections, CSV import, and reports are later s
 Create transaction
 → commit TransactionCreated to LiveStore
 → materialize into local SQLite state
+→ run local engine calculations
 → render transaction list in web UI
 ```
 
 ## Packages
 
-- `apps/web`: TanStack Start web UI with a transaction form and list.
-- `libs/schema`: Shared transaction types, factory, LiveStore table, events, materializers, and schema.
+- `libs/engine`: Local finance logic, shared entity models, statistics calculation, merchant normalization, category detection, and LiveStore schema/events/materializers.
+- `apps/web`: TanStack Start web UI.
+- `apps/desktop`: Desktop app workspace placeholder.
+- `apps/mobile`: Mobile app workspace placeholder.
+- `apps/api`: Cloud boundary for accounts, device sync, and bank integrations.
 
 ## Scripts
 

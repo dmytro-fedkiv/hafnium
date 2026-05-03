@@ -6,11 +6,10 @@
   "dependencies": {
     "@base-ui/react": "^1.4.1",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
-    "@hafnium/schema": "workspace:*",
-    "@livestore/adapter-web": "0.3.1",
-    "@livestore/livestore": "0.3.1",
-    "@livestore/peer-deps": "0.3.1",
-    "@livestore/react": "0.3.1",
+    "@hafnium/engine": "workspace:*",
+    "@livestore/adapter-web": "0.4.0-dev.22",
+    "@livestore/livestore": "0.4.0-dev.22",
+    "@livestore/react": "0.4.0-dev.22",
     "@livestore/wa-sqlite": "1.0.5-dev.2",
     "@phosphor-icons/react": "^2.1.10",
     "@tanstack/react-router": "latest",
@@ -27,7 +26,6 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "@livestore/devtools-vite": "0.3.1",
     "@tailwindcss/vite": "latest",
     "@vitejs/plugin-react": "latest",
     "tailwindcss": "latest",
