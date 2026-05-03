@@ -37,12 +37,12 @@ Create transaction
 ## Scripts
 
 ```bash
-pnpm install
-pnpm dev:web
-pnpm build
-pnpm typecheck
-pnpm lint
-pnpm test
+bun install
+bun run dev:web
+bun run build
+bun run typecheck
+bun run lint
+bun run test
 ```
 
 ## LiveStore Events

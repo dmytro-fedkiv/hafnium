@@ -12,5 +12,5 @@ export const detectCategory = Match.type<string>().pipe(
   ),
   Match.when(String.includes("payroll"), () => "salary"),
   Match.when(String.includes("rent"), () => "rent"),
-  Match.option
-)
+  Match.option,
+);

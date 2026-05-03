@@ -12,13 +12,7 @@ import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -178,12 +172,8 @@ export function DashboardPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               Hafnum v0.1
             </p>
-            <h1 className="text-2xl font-medium tracking-normal">
-              Dashboard
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Overview of your financial health
-            </p>
+            <h1 className="text-2xl font-medium tracking-normal">Dashboard</h1>
+            <p className="text-sm text-muted-foreground">Overview of your financial health</p>
           </div>
           <div className="flex items-center">
             <Button
@@ -229,9 +219,7 @@ function MetricCard({ metric }: Readonly<{ metric: Metric }>) {
     <Card className="border border-border bg-card py-0 ring-0">
       <CardHeader className="gap-4 px-5 py-5">
         <CardDescription>{metric.label}</CardDescription>
-        <CardTitle className="font-mono text-2xl font-medium">
-          {metric.value}
-        </CardTitle>
+        <CardTitle className="font-mono text-2xl font-medium">{metric.value}</CardTitle>
         <p
           className="text-sm text-muted-foreground data-[tone=positive]:font-medium data-[tone=positive]:text-emerald-600"
           data-tone={metric.tone}
@@ -252,20 +240,15 @@ function InsightCard() {
         <div className="grid gap-4">
           <p className="text-sm font-medium text-muted-foreground">AI Insight</p>
           <div className="grid gap-3">
-            <h2 className="text-base font-medium">
-              Food spending increased
-            </h2>
+            <h2 className="text-base font-medium">Food spending increased</h2>
             <p className="max-w-xl text-sm leading-6 text-muted-foreground">
-              You spent 28% more on food this month. Most of the increase came
-              from restaurants on weekends.
+              You spent 28% more on food this month. Most of the increase came from restaurants on
+              weekends.
             </p>
             <p className="text-sm text-foreground">
-              <span className="font-medium">Action:</span> limit
-              restaurant spending to $80/weekend.
+              <span className="font-medium">Action:</span> limit restaurant spending to $80/weekend.
             </p>
-            <p className="text-sm font-medium text-emerald-600">
-              Estimated saving: -$120/month
-            </p>
+            <p className="text-sm font-medium text-emerald-600">Estimated saving: -$120/month</p>
           </div>
           <Button
             className="w-fit border-border bg-background text-foreground hover:bg-muted"
@@ -321,13 +304,9 @@ function TopCategoriesCard() {
                 >
                   {category.icon}
                 </span>
-                <span className="truncate text-sm font-medium">
-                  {category.name}
-                </span>
+                <span className="truncate text-sm font-medium">{category.name}</span>
               </div>
-              <span className="text-right font-mono text-sm">
-                {category.amount}
-              </span>
+              <span className="text-right font-mono text-sm">{category.amount}</span>
               <span
                 className="text-right font-mono text-sm font-medium data-[direction=down]:text-emerald-600 data-[direction=up]:text-red-600"
                 data-direction={category.direction}
@@ -374,12 +353,7 @@ function SpendingTrendCard() {
             margin={{ bottom: 8, left: 0, right: 10, top: 8 }}
           >
             <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
-            <XAxis
-              axisLine={false}
-              dataKey="month"
-              tickLine={false}
-              tickMargin={12}
-            />
+            <XAxis axisLine={false} dataKey="month" tickLine={false} tickMargin={12} />
             <YAxis
               axisLine={false}
               tickFormatter={(value) => `$${Number(value) / 1000}k`}
@@ -394,9 +368,7 @@ function SpendingTrendCard() {
                   formatter={(value) => (
                     <div className="flex min-w-36 items-center justify-between gap-4">
                       <span className="text-muted-foreground">Spending</span>
-                      <span className="font-mono">
-                        {currencyFormatter.format(Number(value))}
-                      </span>
+                      <span className="font-mono">{currencyFormatter.format(Number(value))}</span>
                     </div>
                   )}
                   hideLabel
@@ -405,10 +377,7 @@ function SpendingTrendCard() {
             />
             <Bar dataKey="amount" fill="#d4d4d8" radius={0}>
               {spendingTrend.map((entry) => (
-                <Cell
-                  fill={entry.month === "May" ? "#16a34a" : "#d4d4d8"}
-                  key={entry.month}
-                />
+                <Cell fill={entry.month === "May" ? "#16a34a" : "#d4d4d8"} key={entry.month} />
               ))}
             </Bar>
           </BarChart>
@@ -441,13 +410,9 @@ function RecentTransactionsCard() {
                 <span className="flex size-5 items-center justify-center border border-border bg-muted text-muted-foreground">
                   {transaction.icon}
                 </span>
-                <span className="truncate text-sm font-medium">
-                  {transaction.merchant}
-                </span>
+                <span className="truncate text-sm font-medium">{transaction.merchant}</span>
               </div>
-              <span className="truncate text-sm text-muted-foreground">
-                {transaction.category}
-              </span>
+              <span className="truncate text-sm text-muted-foreground">{transaction.category}</span>
               <span
                 className="text-right font-mono text-sm font-medium data-[tone=expense]:text-red-600 data-[tone=income]:text-emerald-600"
                 data-tone={transaction.tone}

@@ -96,21 +96,13 @@ export function BudgetsPage() {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [amount, setAmount] = useState("");
 
-  const budgetedCategoryIds = new Set(
-    budgets.map((budget) => budget.category.id),
-  );
+  const budgetedCategoryIds = new Set(budgets.map((budget) => budget.category.id));
   const availableCategories = categories.filter(
     (category) => !budgetedCategoryIds.has(category.id),
   );
   const totals = useMemo(() => {
-    const spentCents = budgets.reduce(
-      (total, budget) => total + budget.spentCents,
-      0,
-    );
-    const amountCents = budgets.reduce(
-      (total, budget) => total + budget.amountCents,
-      0,
-    );
+    const spentCents = budgets.reduce((total, budget) => total + budget.spentCents, 0);
+    const amountCents = budgets.reduce((total, budget) => total + budget.amountCents, 0);
 
     return {
       amountCents,
@@ -150,9 +142,7 @@ export function BudgetsPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               Hafnum v0.1
             </p>
-            <h1 className="text-2xl font-medium tracking-normal">
-              Budgets
-            </h1>
+            <h1 className="text-2xl font-medium tracking-normal">Budgets</h1>
             <p className="text-sm text-muted-foreground">Track your budget progress</p>
           </div>
           <Button
@@ -186,9 +176,7 @@ export function BudgetsPage() {
                       Category
                     </Label>
                     <Select
-                      onValueChange={(value) =>
-                        setSelectedCategoryId(value ?? "")
-                      }
+                      onValueChange={(value) => setSelectedCategoryId(value ?? "")}
                       value={selectedCategoryId}
                     >
                       <SelectTrigger
@@ -236,13 +224,9 @@ export function BudgetsPage() {
 
               <div className="divide-y divide-border">
                 {budgets.length === 0 ? (
-                  <div className="px-5 py-12 text-sm text-muted-foreground">
-                    No budgets yet.
-                  </div>
+                  <div className="px-5 py-12 text-sm text-muted-foreground">No budgets yet.</div>
                 ) : (
-                  budgets.map((budget) => (
-                    <BudgetRow budget={budget} key={budget.category.id} />
-                  ))
+                  budgets.map((budget) => <BudgetRow budget={budget} key={budget.category.id} />)
                 )}
               </div>
             </CardContent>
@@ -280,18 +264,13 @@ export function BudgetsPage() {
 
 function BudgetRow({ budget }: Readonly<{ budget: Budget }>) {
   const percentage =
-    budget.amountCents === 0
-      ? 0
-      : Math.round((budget.spentCents / budget.amountCents) * 100);
+    budget.amountCents === 0 ? 0 : Math.round((budget.spentCents / budget.amountCents) * 100);
   const isExceeded = budget.spentCents > budget.amountCents;
   const overageCents = Math.max(budget.spentCents - budget.amountCents, 0);
   const Icon = budget.category.icon;
 
   return (
-    <div
-      className="grid gap-3 px-5 py-5 data-[exceeded=true]:bg-red-50"
-      data-exceeded={isExceeded}
-    >
+    <div className="grid gap-3 px-5 py-5 data-[exceeded=true]:bg-red-50" data-exceeded={isExceeded}>
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 md:grid-cols-[minmax(0,1fr)_12rem_4rem]">
         <div className="flex min-w-0 items-center gap-3">
           <span
@@ -303,9 +282,7 @@ function BudgetRow({ budget }: Readonly<{ budget: Budget }>) {
           >
             <Icon className="size-3.5" weight="bold" />
           </span>
-          <span className="truncate text-sm font-medium">
-            {budget.category.name}
-          </span>
+          <span className="truncate text-sm font-medium">{budget.category.name}</span>
           {isExceeded ? (
             <span className="inline-flex items-center gap-1 border border-red-200 bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-600 uppercase tracking-normal">
               <WarningCircleIcon className="size-3" />
@@ -350,11 +327,7 @@ function BudgetRow({ budget }: Readonly<{ budget: Budget }>) {
   );
 }
 
-function makeBudget(
-  categoryId: string,
-  spentCents: number,
-  amountCents: number,
-): Budget {
+function makeBudget(categoryId: string, spentCents: number, amountCents: number): Budget {
   const category = categories.find((entry) => entry.id === categoryId);
 
   if (!category) {

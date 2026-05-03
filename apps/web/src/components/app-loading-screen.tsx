@@ -23,13 +23,9 @@ const loadingLog = [
   "Almost ready...",
 ];
 
-export function AppLoadingScreen({
-  stage,
-}: Readonly<{ stage?: string | null }>) {
+export function AppLoadingScreen({ stage }: Readonly<{ stage?: string | null }>) {
   const normalizedStage = normalizeStage(stage);
-  const activeIndex = stageItems.findIndex(
-    (item) => item.key === normalizedStage,
-  );
+  const activeIndex = stageItems.findIndex((item) => item.key === normalizedStage);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -116,9 +112,7 @@ export function AppLoadingScreen({
                     key={entry}
                   >
                     <span>&gt; {entry}</span>
-                    <span className="text-right">
-                      11:42:0{Math.min(index + 1, 8)}
-                    </span>
+                    <span className="text-right">11:42:0{Math.min(index + 1, 8)}</span>
                   </div>
                 ))}
               </div>

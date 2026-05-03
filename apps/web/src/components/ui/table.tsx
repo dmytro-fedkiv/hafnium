@@ -3,10 +3,7 @@ import { cn } from "@/lib/utils";
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div className="w-full overflow-auto">
-      <table
-        className={cn("w-full caption-bottom text-xs", className)}
-        {...props}
-      />
+      <table className={cn("w-full caption-bottom text-xs", className)} {...props} />
     </div>
   );
 }
@@ -16,9 +13,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
-  return (
-    <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />
-  );
+  return <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />;
 }
 
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {

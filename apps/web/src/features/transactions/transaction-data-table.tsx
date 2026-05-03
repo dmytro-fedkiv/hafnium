@@ -81,9 +81,7 @@ export function TransactionDataTable({
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [accountFilter, setAccountFilter] = useState<string[]>([]);
   const [typeFilter, setTypeFilter] = useState<Transaction["type"][]>([]);
-  const [sorting, setSorting] = useState<SortingState>([
-    { desc: true, id: "date" },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([{ desc: true, id: "date" }]);
   const [visibleCount, setVisibleCount] = useState(INITIAL_ROWS);
   const [accountSearch, setAccountSearch] = useState("");
   const [categorySearch, setCategorySearch] = useState("");
@@ -117,9 +115,7 @@ export function TransactionDataTable({
         accessorKey: "date",
         header: "Date",
         cell: ({ row }) => (
-          <span className="font-mono text-muted-foreground">
-            {row.original.date}
-          </span>
+          <span className="font-mono text-muted-foreground">{row.original.date}</span>
         ),
       },
       {
@@ -133,13 +129,9 @@ export function TransactionDataTable({
         header: "Description",
         cell: ({ row }) => (
           <div className="grid gap-1">
-            <div className="font-medium text-foreground">
-              {row.original.description}
-            </div>
+            <div className="font-medium text-foreground">{row.original.description}</div>
             {row.original.note ? (
-              <div className="line-clamp-1 text-muted-foreground">
-                {row.original.note}
-              </div>
+              <div className="line-clamp-1 text-muted-foreground">{row.original.note}</div>
             ) : null}
           </div>
         ),
@@ -175,17 +167,13 @@ export function TransactionDataTable({
           return value.includes(String(row.getValue(columnId)));
         },
         cell: ({ row }) => (
-          <span className="text-muted-foreground">
-            {row.original.accountName}
-          </span>
+          <span className="text-muted-foreground">{row.original.accountName}</span>
         ),
       },
       {
         accessorKey: "amountCents",
         header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => (
-          <div className="text-right">{renderAmount(row.original)}</div>
-        ),
+        cell: ({ row }) => <div className="text-right">{renderAmount(row.original)}</div>,
       },
       {
         accessorKey: "status",
@@ -195,9 +183,7 @@ export function TransactionDataTable({
             return true;
           }
 
-          return value.includes(
-            row.getValue(columnId) as Transaction["status"],
-          );
+          return value.includes(row.getValue(columnId) as Transaction["status"]);
         },
         cell: ({ row }) => renderStatusBadge(row.original, { compact: false }),
       },
@@ -206,10 +192,7 @@ export function TransactionDataTable({
         enableSorting: false,
         header: () => <div className="text-right">Actions</div>,
         cell: ({ row }) => (
-          <div
-            className="text-right"
-            onClick={(event) => event.stopPropagation()}
-          >
+          <div className="text-right" onClick={(event) => event.stopPropagation()}>
             <TransactionRowActions
               onDelete={() => onDeleteTransaction(row.original)}
               onEdit={() => onEditTransaction(row.original)}
@@ -263,9 +246,7 @@ export function TransactionDataTable({
     account.toLowerCase().includes(accountSearch.toLowerCase()),
   );
   const filteredCategoryOptions = transactionCategories.filter((category) =>
-    `${category.name} ${category.emoji}`
-      .toLowerCase()
-      .includes(categorySearch.toLowerCase()),
+    `${category.name} ${category.emoji}`.toLowerCase().includes(categorySearch.toLowerCase()),
   );
   const hasStatusFilter = statusFilter.length > 0;
   const hasCategoryFilter = categoryFilter.length > 0;
@@ -312,8 +293,7 @@ export function TransactionDataTable({
             label: `Category: ${categoryFilter
               .map(
                 (categoryId) =>
-                  transactionCategories.find((entry) => entry.id === categoryId)
-                    ?.name,
+                  transactionCategories.find((entry) => entry.id === categoryId)?.name,
               )
               .filter((name): name is string => !!name)
               .join(", ")}`,
@@ -345,13 +325,8 @@ export function TransactionDataTable({
   function handleScroll(event: React.UIEvent<HTMLDivElement>) {
     const element = event.currentTarget;
 
-    if (
-      hasMoreRows &&
-      element.scrollHeight - element.scrollTop - element.clientHeight < 160
-    ) {
-      setVisibleCount((current) =>
-        Math.min(filteredRows.length, current + ROW_INCREMENT),
-      );
+    if (hasMoreRows && element.scrollHeight - element.scrollTop - element.clientHeight < 160) {
+      setVisibleCount((current) => Math.min(filteredRows.length, current + ROW_INCREMENT));
     }
   }
 
@@ -426,9 +401,7 @@ export function TransactionDataTable({
               <FunnelSimpleIcon className="size-4" />
               <span>Filter</span>
               {activeFilterCount > 0 ? (
-                <span className="font-mono text-muted-foreground">
-                  {activeFilterCount}
-                </span>
+                <span className="font-mono text-muted-foreground">{activeFilterCount}</span>
               ) : null}
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="min-w-64 p-0">
@@ -446,9 +419,7 @@ export function TransactionDataTable({
                   <DropdownMenuSubContent className="min-w-64 p-3">
                     <div className="grid gap-2">
                       <Input
-                        onChange={(event) =>
-                          setAccountSearch(event.target.value)
-                        }
+                        onChange={(event) => setAccountSearch(event.target.value)}
                         placeholder="Search"
                         value={accountSearch}
                       />
@@ -457,16 +428,11 @@ export function TransactionDataTable({
                           className="flex items-center gap-3 px-2 py-2 text-left text-sm hover:bg-muted"
                           key={account}
                           onClick={() =>
-                            setAccountFilter((current) =>
-                              toggleValue(current, account),
-                            )
+                            setAccountFilter((current) => toggleValue(current, account))
                           }
                           type="button"
                         >
-                          <Checkbox
-                            checked={accountFilter.includes(account)}
-                            readOnly
-                          />
+                          <Checkbox checked={accountFilter.includes(account)} readOnly />
                           <span>{account}</span>
                         </button>
                       ))}
@@ -483,9 +449,7 @@ export function TransactionDataTable({
                   <DropdownMenuSubContent className="min-w-72 p-3">
                     <div className="grid gap-2">
                       <Input
-                        onChange={(event) =>
-                          setCategorySearch(event.target.value)
-                        }
+                        onChange={(event) => setCategorySearch(event.target.value)}
                         placeholder="Search"
                         value={categorySearch}
                       />
@@ -494,16 +458,11 @@ export function TransactionDataTable({
                           className="flex items-center gap-3 px-2 py-2 text-left text-sm hover:bg-muted"
                           key={category.id}
                           onClick={() =>
-                            setCategoryFilter((current) =>
-                              toggleValue(current, category.id),
-                            )
+                            setCategoryFilter((current) => toggleValue(current, category.id))
                           }
                           type="button"
                         >
-                          <Checkbox
-                            checked={categoryFilter.includes(category.id)}
-                            readOnly
-                          />
+                          <Checkbox checked={categoryFilter.includes(category.id)} readOnly />
                           <span>
                             {category.emoji} {category.name}
                           </span>
@@ -521,26 +480,17 @@ export function TransactionDataTable({
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent className="min-w-56 p-3">
                     <div className="grid gap-2">
-                      {(["pending", "completed", "failed"] as const).map(
-                        (status) => (
-                          <button
-                            className="flex items-center gap-3 px-2 py-2 text-left text-sm hover:bg-muted"
-                            key={status}
-                            onClick={() =>
-                              setStatusFilter((current) =>
-                                toggleValue(current, status),
-                              )
-                            }
-                            type="button"
-                          >
-                            <Checkbox
-                              checked={statusFilter.includes(status)}
-                              readOnly
-                            />
-                            <span className="capitalize">{status}</span>
-                          </button>
-                        ),
-                      )}
+                      {(["pending", "completed", "failed"] as const).map((status) => (
+                        <button
+                          className="flex items-center gap-3 px-2 py-2 text-left text-sm hover:bg-muted"
+                          key={status}
+                          onClick={() => setStatusFilter((current) => toggleValue(current, status))}
+                          type="button"
+                        >
+                          <Checkbox checked={statusFilter.includes(status)} readOnly />
+                          <span className="capitalize">{status}</span>
+                        </button>
+                      ))}
                     </div>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
@@ -558,16 +508,11 @@ export function TransactionDataTable({
                           className="flex items-center gap-3 px-2 py-2 text-left text-sm hover:bg-muted"
                           key={typeOption.value}
                           onClick={() =>
-                            setTypeFilter((current) =>
-                              toggleValue(current, typeOption.value),
-                            )
+                            setTypeFilter((current) => toggleValue(current, typeOption.value))
                           }
                           type="button"
                         >
-                          <Checkbox
-                            checked={typeFilter.includes(typeOption.value)}
-                            readOnly
-                          />
+                          <Checkbox checked={typeFilter.includes(typeOption.value)} readOnly />
                           {typeOption.icon}
                           <span>{typeOption.label}</span>
                         </button>
@@ -606,22 +551,16 @@ export function TransactionDataTable({
                 >
                   <CalendarBlankIcon className="size-4" />
                   Date
-                  {sorting[0]?.id === "date" ? (
-                    <span className="ml-auto">✓</span>
-                  ) : null}
+                  {sorting[0]?.id === "date" ? <span className="ml-auto">✓</span> : null}
                 </button>
                 <button
                   className="flex w-full items-center gap-2 px-2 py-2 text-left text-sm hover:bg-muted"
-                  onClick={() =>
-                    setSorting([{ desc: true, id: "amountCents" }])
-                  }
+                  onClick={() => setSorting([{ desc: true, id: "amountCents" }])}
                   type="button"
                 >
                   <BankIcon className="size-4" />
                   Amount
-                  {sorting[0]?.id === "amountCents" ? (
-                    <span className="ml-auto">✓</span>
-                  ) : null}
+                  {sorting[0]?.id === "amountCents" ? <span className="ml-auto">✓</span> : null}
                 </button>
               </DropdownMenuGroup>
             </DropdownMenuContent>
@@ -629,11 +568,7 @@ export function TransactionDataTable({
         </div>
       </div>
 
-      <div
-        className="max-h-[62vh] overflow-auto"
-        onScroll={handleScroll}
-        ref={scrollRef}
-      >
+      <div className="max-h-[62vh] overflow-auto" onScroll={handleScroll} ref={scrollRef}>
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-background">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -645,8 +580,7 @@ export function TransactionDataTable({
                   return (
                     <TableHead
                       className={
-                        header.column.id === "amountCents" ||
-                        header.column.id === "actions"
+                        header.column.id === "amountCents" || header.column.id === "actions"
                           ? "text-right"
                           : undefined
                       }
@@ -659,19 +593,13 @@ export function TransactionDataTable({
                           type="button"
                         >
                           <span>
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
+                            {flexRender(header.column.columnDef.header, header.getContext())}
                           </span>
                           {sortDirection === "asc" ? "↑" : null}
                           {sortDirection === "desc" ? "↓" : null}
                         </button>
                       ) : (
-                        flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )
+                        flexRender(header.column.columnDef.header, header.getContext())
                       )}
                     </TableHead>
                   );
@@ -698,10 +626,7 @@ export function TransactionDataTable({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -713,8 +638,7 @@ export function TransactionDataTable({
 
       <div className="flex flex-col gap-3 border-t border-border px-5 py-4 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
         <div>
-          Showing {visibleRows.length} of {filteredRows.length} matching
-          transactions
+          Showing {visibleRows.length} of {filteredRows.length} matching transactions
         </div>
         <div>{hasMoreRows ? "Scroll to load more" : "End of results"}</div>
       </div>

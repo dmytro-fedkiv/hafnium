@@ -2,24 +2,12 @@ import { DownloadSimpleIcon, PlusIcon } from "@phosphor-icons/react";
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  createMockTransaction,
-  mockTransactions,
-} from "./features/transactions/mock-transactions";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { createMockTransaction, mockTransactions } from "./features/transactions/mock-transactions";
 import { TransactionDataTable } from "./features/transactions/transaction-data-table";
 import { TransactionDetailsPanel } from "./features/transactions/transaction-details-panel";
 import { TransactionForm } from "./features/transactions/transaction-form";
-import {
-  type Transaction,
-  type TransactionDraft,
-} from "./features/transactions/transaction-types";
+import { type Transaction, type TransactionDraft } from "./features/transactions/transaction-types";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
@@ -27,16 +15,12 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export function TransactionsPage() {
-  const [transactions, setTransactions] =
-    useState<Transaction[]>(mockTransactions);
-  const [filteredTransactions, setFilteredTransactions] =
-    useState<Transaction[]>(mockTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
+  const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>(mockTransactions);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const [editingTransaction, setEditingTransaction] =
-    useState<Transaction | null>(null);
-  const [selectedTransaction, setSelectedTransaction] =
-    useState<Transaction | null>(null);
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
   const summary = useMemo(() => {
     const totalIncome = filteredTransactions
@@ -50,9 +34,7 @@ export function TransactionsPage() {
       .reduce(
         (sum, transaction) =>
           sum +
-          (transaction.type === "income"
-            ? transaction.amountCents
-            : -transaction.amountCents),
+          (transaction.type === "income" ? transaction.amountCents : -transaction.amountCents),
         0,
       );
     const netAmount = totalIncome - totalExpenses;
@@ -98,12 +80,8 @@ export function TransactionsPage() {
   }
 
   function handleDeleteTransaction(transaction: Transaction) {
-    setTransactions((current) =>
-      current.filter((entry) => entry.id !== transaction.id),
-    );
-    setSelectedTransaction((current) =>
-      current?.id === transaction.id ? null : current,
-    );
+    setTransactions((current) => current.filter((entry) => entry.id !== transaction.id));
+    setSelectedTransaction((current) => (current?.id === transaction.id ? null : current));
     setIsDetailsOpen(false);
     if (editingTransaction?.id === transaction.id) {
       setEditingTransaction(null);
@@ -118,9 +96,7 @@ export function TransactionsPage() {
             <p className="text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
               Hafnium v0.1
             </p>
-            <h1 className="text-4xl font-medium tracking-tight text-foreground">
-              Transactions
-            </h1>
+            <h1 className="text-4xl font-medium tracking-tight text-foreground">Transactions</h1>
             <p className="max-w-2xl text-sm text-muted-foreground">
               Create, filter, and inspect your local transaction history.
             </p>
@@ -185,14 +161,10 @@ export function TransactionsPage() {
 
       <TransactionDetailsPanel
         onDelete={() =>
-          selectedTransaction
-            ? handleDeleteTransaction(selectedTransaction)
-            : undefined
+          selectedTransaction ? handleDeleteTransaction(selectedTransaction) : undefined
         }
         onEdit={() =>
-          selectedTransaction
-            ? handleEditTransaction(selectedTransaction)
-            : undefined
+          selectedTransaction ? handleEditTransaction(selectedTransaction) : undefined
         }
         onOpenChange={setIsDetailsOpen}
         open={isDetailsOpen}

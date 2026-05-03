@@ -9,37 +9,16 @@
       "import": "./src/index.ts"
     }
   },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "check": "vp check",
+    "fmt": "vp fmt --check",
+    "lint": "vp lint",
+    "test": "vp test --passWithNoTests",
+    "typecheck": "vp check --no-fmt --no-lint"
+  },
   "dependencies": {
     "@livestore/livestore": "0.4.0-dev.22",
     "effect": "3.19.12"
-  },
-  "nx": {
-    "name": "engine",
-    "targets": {
-      "build": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "options": {
-          "cwd": "libs/engine"
-        }
-      },
-      "typecheck": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "options": {
-          "cwd": "libs/engine"
-        }
-      },
-      "test": {
-        "command": "vitest run --passWithNoTests",
-        "options": {
-          "cwd": "libs/engine"
-        }
-      },
-      "lint": {
-        "command": "eslint .",
-        "options": {
-          "cwd": "libs/engine"
-        }
-      }
-    }
   }
 }

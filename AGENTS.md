@@ -2,12 +2,12 @@
 
 ## Project Structure & Module Organization
 
-This is a pnpm + Nx TypeScript workspace. Workspace packages live under `apps/*` and `libs/*`.
+This is a Bun + Nx TypeScript workspace. Workspace packages live under `apps/*` and `libs/*`.
 
 - `apps/web`: TanStack Start web application. Source lives in `apps/web/src`.
 - `apps/api`: Node API package if present; keep API source under `apps/api/src`.
 - `libs/engine`: Shared finance types, pure helpers, LiveStore tables, events, materializers, and exported schema.
-- Root config: `nx.json`, `pnpm-workspace.yaml`, `tsconfig.base.json`, and `eslint.config.js`.
+- Root config: `bun.lock`, `nx.json`, `tsconfig.base.json`, and `eslint.config.js`.
 
 Keep transaction types and LiveStore definitions in `libs/engine`; do not duplicate them inside app packages.
 
@@ -15,14 +15,14 @@ Keep transaction types and LiveStore definitions in `libs/engine`; do not duplic
 
 Run commands from the repository root:
 
-- `pnpm install`: install workspace dependencies and refresh `pnpm-lock.yaml`.
-- `pnpm dev:web`: run the web app through Nx.
-- `pnpm build`: run all project `build` targets.
-- `pnpm typecheck`: run TypeScript checks for all projects.
-- `pnpm lint`: run ESLint for all projects.
-- `pnpm test`: run Vitest targets; current packages may use `--passWithNoTests`.
+- `bun install`: install workspace dependencies and refresh `bun.lock`.
+- `bun run dev:web`: run the web app through Nx.
+- `bun run build`: run all project `build` targets.
+- `bun run typecheck`: run TypeScript checks for all projects.
+- `bun run lint`: run ESLint for all projects.
+- `bun run test`: run Vitest targets; current packages may use `--passWithNoTests`.
 
-Prefer targeted Nx commands while iterating, for example `pnpm nx run web:typecheck`.
+Prefer targeted Nx commands while iterating, for example `bunx nx run web:typecheck`.
 
 ## Coding Style & Naming Conventions
 
@@ -34,7 +34,7 @@ When you need to look up information about LiveStore, always use the `docs` dire
 
 ## Testing Guidelines
 
-Use Vitest for unit tests. Place tests beside implementation files as `*.test.ts` or `*.test.tsx`. Focus tests on pure domain behavior and schema/event behavior before adding broad UI tests. Always run `pnpm typecheck` and the relevant `pnpm nx run <project>:test` target before handoff.
+Use Vitest for unit tests. Place tests beside implementation files as `*.test.ts` or `*.test.tsx`. Focus tests on pure domain behavior and schema/event behavior before adding broad UI tests. Always run `bun run typecheck` and the relevant `bunx nx run <project>:test` target before handoff.
 
 ## Commit & Pull Request Guidelines
 

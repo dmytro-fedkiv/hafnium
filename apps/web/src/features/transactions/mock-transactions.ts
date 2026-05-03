@@ -14,12 +14,7 @@ export const transactionCategories: TransactionCategory[] = [
   { id: "health", name: "Health", emoji: "🩺", color: "#dc2626" },
 ];
 
-export const accountOptions = [
-  "Checking",
-  "Savings",
-  "Credit Card",
-  "Brokerage Cash",
-];
+export const accountOptions = ["Checking", "Savings", "Credit Card", "Brokerage Cash"];
 
 function categoryById(id: string) {
   const category = transactionCategories.find((entry) => entry.id === id);

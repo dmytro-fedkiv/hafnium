@@ -93,10 +93,7 @@ function LoadingShell() {
   );
 }
 
-function ErrorScreen({
-  error,
-  onRetry,
-}: Readonly<{ error: unknown; onRetry: () => void }>) {
+function ErrorScreen({ error, onRetry }: Readonly<{ error: unknown; onRetry: () => void }>) {
   const timestamp = formatTimestamp(new Date());
   const diagnostics = getErrorDiagnostics(error);
 
@@ -142,16 +139,13 @@ function ErrorScreen({
             <div className="w-full border border-border px-5 py-4 text-left">
               <div className="grid gap-2 font-mono text-sm">
                 <p>
-                  <span className="text-muted-foreground">Error code:</span>{" "}
-                  {diagnostics.code}
+                  <span className="text-muted-foreground">Error code:</span> {diagnostics.code}
                 </p>
                 <p>
-                  <span className="text-muted-foreground">Time:</span>{" "}
-                  {timestamp}
+                  <span className="text-muted-foreground">Time:</span> {timestamp}
                 </p>
                 <p className="leading-6">
-                  <span className="text-muted-foreground">Details:</span>{" "}
-                  {diagnostics.details}
+                  <span className="text-muted-foreground">Details:</span> {diagnostics.details}
                 </p>
               </div>
             </div>
@@ -178,9 +172,7 @@ function NotFoundScreen() {
         <section className="border border-border bg-card px-8 py-12">
           <div className="mx-auto flex max-w-[40rem] flex-col items-center gap-6 text-center">
             <div className="grid place-items-center gap-2 font-mono text-foreground">
-              <div className="border border-foreground px-6 py-4 text-5xl font-medium">
-                404
-              </div>
+              <div className="border border-foreground px-6 py-4 text-5xl font-medium">404</div>
             </div>
 
             <div className="grid gap-3">
@@ -196,11 +188,7 @@ function NotFoundScreen() {
               <Button render={<Link to="/dashboard" />} type="button">
                 Go to dashboard
               </Button>
-              <Button
-                render={<Link to="/transactions" />}
-                type="button"
-                variant="outline"
-              >
+              <Button render={<Link to="/transactions" />} type="button" variant="outline">
                 View transactions
               </Button>
             </div>
@@ -208,14 +196,10 @@ function NotFoundScreen() {
             <div className="w-full border border-border px-5 py-4 text-left">
               <div className="grid gap-2 font-mono text-sm">
                 <p>
-                  <span className="text-muted-foreground">
-                    Requested route:
-                  </span>{" "}
-                  {pathname}
+                  <span className="text-muted-foreground">Requested route:</span> {pathname}
                 </p>
                 <p>
-                  <span className="text-muted-foreground">Time:</span>{" "}
-                  {timestamp}
+                  <span className="text-muted-foreground">Time:</span> {timestamp}
                 </p>
               </div>
             </div>

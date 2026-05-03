@@ -12,13 +12,7 @@ import {
   UserCircleIcon,
   WarningIcon,
 } from "@phosphor-icons/react";
-import {
-  type CSSProperties,
-  type ReactNode,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { type CSSProperties, type ReactNode, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 
 import {
@@ -84,10 +78,7 @@ const primaryNavItems: NavItem[] = [
     icon: LightbulbIcon,
     label: "Insights",
     marker: (
-      <span
-        aria-label="New recommendation"
-        className="size-1.5 rounded-full bg-emerald-400"
-      />
+      <span aria-label="New recommendation" className="size-1.5 rounded-full bg-emerald-400" />
     ),
   },
   {
@@ -191,9 +182,7 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
             title="hafnium"
           >
             <CubeIcon className="size-4 shrink-0 opacity-70" />
-            <span className="min-w-0 truncate group-data-[collapsible=icon]:sr-only">
-              hafnium
-            </span>
+            <span className="min-w-0 truncate group-data-[collapsible=icon]:sr-only">hafnium</span>
           </Link>
           <SidebarTrigger className="size-8 text-[#9A9AA0] hover:bg-[#17171A] hover:text-[#EDEDED] group-data-[collapsible=icon]:mx-auto" />
         </div>
@@ -282,10 +271,7 @@ function AppSidebar({ onOpenSearch }: Readonly<{ onOpenSearch: () => void }>) {
   );
 }
 
-function PrimaryNavItem({
-  isActive,
-  item,
-}: Readonly<{ isActive: boolean; item: NavItem }>) {
+function PrimaryNavItem({ isActive, item }: Readonly<{ isActive: boolean; item: NavItem }>) {
   const Icon = item.icon;
 
   return (
@@ -305,9 +291,7 @@ function PrimaryNavItem({
         tooltip={item.label}
       />
       {item.marker ? (
-        <SidebarMenuBadge className="right-2 text-amber-300">
-          {item.marker}
-        </SidebarMenuBadge>
+        <SidebarMenuBadge className="right-2 text-amber-300">{item.marker}</SidebarMenuBadge>
       ) : null}
     </SidebarMenuItem>
   );
@@ -364,9 +348,7 @@ function GlobalSearch({
       .map((group) => ({
         ...group,
         items: normalizedQuery
-          ? group.items.filter((item) =>
-              item.label.toLowerCase().includes(normalizedQuery),
-            )
+          ? group.items.filter((item) => item.label.toLowerCase().includes(normalizedQuery))
           : group.items,
       }))
       .filter((group) => group.items.length > 0);
@@ -406,10 +388,7 @@ function GlobalSearch({
                   const Icon = item.icon;
 
                   return (
-                    <CommandItem
-                      key={item.label}
-                      onSelect={() => onOpenChange(false)}
-                    >
+                    <CommandItem key={item.label} onSelect={() => onOpenChange(false)}>
                       <Icon className="size-4 opacity-70" />
                       <span>{item.label}</span>
                       {item.shortcut ? (

@@ -1,18 +1,14 @@
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import tailwindcss from "@tailwindcss/vite";
-import viteReact from "@vitejs/plugin-react";
-import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
   fmt: {
-    ignorePatterns: ["dist/**", "node_modules/**", "src/routeTree.gen.ts"],
+    ignorePatterns: ["**/dist/**", "**/node_modules/**", "apps/web/src/routeTree.gen.ts"],
     semi: true,
     singleQuote: false,
     sortPackageJson: true,
   },
   lint: {
-    ignorePatterns: ["dist/**", "node_modules/**", "src/routeTree.gen.ts"],
+    ignorePatterns: ["**/dist/**", "**/node_modules/**", "apps/web/src/routeTree.gen.ts"],
     options: {
       typeAware: true,
       typeCheck: true,
@@ -40,19 +36,4 @@ export default defineConfig({
       },
     ],
   },
-  optimizeDeps: {
-    exclude: ["@livestore/wa-sqlite"],
-  },
-  server: {
-    port: 3000,
-  },
-  worker: {
-    format: "es",
-  },
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
-  },
-  plugins: [tailwindcss(), tanstackStart(), viteReact()],
 });

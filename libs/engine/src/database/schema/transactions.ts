@@ -1,5 +1,5 @@
-import { Events, nanoid, State } from "@livestore/livestore"
-import { Schema } from "effect"
+import { Events, nanoid, State } from "@livestore/livestore";
+import { Schema } from "effect";
 
 export enum TransactionType {
   Income = "Income",
@@ -13,9 +13,9 @@ const schema = Schema.Struct({
   date: Schema.Date,
   type: Schema.Literal(TransactionType.Income, TransactionType.Expense),
   category: Schema.String,
-}).annotations({ title: 'transactions' })
+}).annotations({ title: "transactions" });
 
-const table = State.SQLite.table({ schema })
+const table = State.SQLite.table({ schema });
 
 const events = {
   transactionCreated: Events.synced({
@@ -38,14 +38,12 @@ const events = {
       type: Schema.Literal(TransactionType.Income, TransactionType.Expense),
       category: Schema.String,
     }),
-  })
-} as const
+  }),
+} as const;
 
 const materializers = State.SQLite.materializers(events, {
-  "v1.transaction.created": (transaction) =>
-    table.insert({ id: nanoid(), ...transaction }),
-  "v1.transaction.updated": ({ id, ...transaction }) =>
-    table.update(transaction).where({ id })
-})
+  "v1.transaction.created": (transaction) => table.insert({ id: nanoid(), ...transaction }),
+  "v1.transaction.updated": ({ id, ...transaction }) => table.update(transaction).where({ id }),
+});
 
-export const transaction = { schema, table, events, materializers }
+export const transaction = { schema, table, events, materializers };

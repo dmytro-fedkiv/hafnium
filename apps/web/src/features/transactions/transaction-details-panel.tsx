@@ -1,8 +1,4 @@
-import {
-  CalendarBlankIcon,
-  PencilSimpleIcon,
-  TrashIcon,
-} from "@phosphor-icons/react";
+import { CalendarBlankIcon, PencilSimpleIcon, TrashIcon } from "@phosphor-icons/react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,10 +33,7 @@ export function TransactionDetailsPanel({
 }>) {
   return (
     <Sheet onOpenChange={onOpenChange} open={open}>
-      <SheetContent
-        className="max-w-lg border-l border-border bg-background"
-        side="right"
-      >
+      <SheetContent className="max-w-lg border-l border-border bg-background" side="right">
         {transaction ? (
           <>
             <SheetHeader className="border-b border-border px-5 py-4">
@@ -98,9 +91,7 @@ export function TransactionDetailsPanel({
                   Categories
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {transaction.categories.map((category) =>
-                    renderCategoryBadge(category),
-                  )}
+                  {transaction.categories.map((category) => renderCategoryBadge(category))}
                 </div>
               </section>
 
@@ -108,9 +99,7 @@ export function TransactionDetailsPanel({
                 <div className="text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
                   Note
                 </div>
-                <p className="text-foreground">
-                  {transaction.note?.trim() || "No note added."}
-                </p>
+                <p className="text-foreground">{transaction.note?.trim() || "No note added."}</p>
               </section>
             </div>
 

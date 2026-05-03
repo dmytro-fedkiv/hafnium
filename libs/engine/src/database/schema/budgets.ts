@@ -16,9 +16,9 @@ const schema = Schema.Struct({
   period: Schema.String.pipe(State.SQLite.withDefault(BudgetPeriod.Monthly)),
   createdAt: Schema.Date,
   updatedAt: Schema.Date,
-}).annotations({ title: 'budgets' })
+}).annotations({ title: "budgets" });
 
-const table = State.SQLite.table({ schema })
+const table = State.SQLite.table({ schema });
 
 const events = {
   created: Events.synced({
@@ -31,19 +31,17 @@ const events = {
       createdAt: Schema.Date,
       updatedAt: Schema.Date,
     }),
-  })
-} as const
+  }),
+} as const;
 
 const materializers = State.SQLite.materializers(events, {
   "v1.budget.created": (budget) =>
-    table
-      .insert({ id: nanoid(), ...budget })
-      .onConflict("categoryId", "update", {
-        amountCents: budget.amountCents,
-        currency: budget.currency,
-        period: budget.period,
-        updatedAt: budget.updatedAt,
-      })
-})
+    table.insert({ id: nanoid(), ...budget }).onConflict("categoryId", "update", {
+      amountCents: budget.amountCents,
+      currency: budget.currency,
+      period: budget.period,
+      updatedAt: budget.updatedAt,
+    }),
+});
 
-export const budget = { schema, table, events, materializers }
+export const budget = { schema, table, events, materializers };

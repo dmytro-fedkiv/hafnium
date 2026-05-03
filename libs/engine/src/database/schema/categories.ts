@@ -9,7 +9,7 @@ export const defaultCategories = [
   { id: "travel", name: "Travel", emoji: "✈️", color: "#0891b2" },
   { id: "software", name: "Software", emoji: "🧩", color: "#7c3aed" },
   { id: "health", name: "Health", emoji: "🩺", color: "#dc2626" },
-] as const
+] as const;
 
 const schema = Schema.Struct({
   id: Schema.String.pipe(State.SQLite.withPrimaryKey),
@@ -18,10 +18,9 @@ const schema = Schema.Struct({
   color: Schema.String.pipe(State.SQLite.withDefault("#737373")),
   createdAt: Schema.Date,
   updatedAt: Schema.Date,
-}).annotations({ title: 'categories' })
+}).annotations({ title: "categories" });
 
-
-const table = State.SQLite.table({ schema })
+const table = State.SQLite.table({ schema });
 
 const events = {
   created: Events.synced({
@@ -44,13 +43,11 @@ const events = {
       updatedAt: Schema.Date,
     }),
   }),
-} as const
+} as const;
 
 const materializers = State.SQLite.materializers(events, {
-  "v1.category.created": (category) =>
-    table.insert({ id: nanoid(), ...category }),
-  "v1.category.updated": ({ id, ...category }) =>
-    table.update(category).where({ id }),
-})
+  "v1.category.created": (category) => table.insert({ id: nanoid(), ...category }),
+  "v1.category.updated": ({ id, ...category }) => table.update(category).where({ id }),
+});
 
-export const category = { schema, table, events, materializers }
+export const category = { schema, table, events, materializers };

@@ -116,11 +116,7 @@ export function renderCategoryBadge(
       <span aria-hidden="true" className="grid size-4 place-items-center">
         <Icon className="size-3.5" weight="regular" />
       </span>
-      {isCompact ? (
-        <span className="sr-only">{category.name}</span>
-      ) : (
-        <span>{category.name}</span>
-      )}
+      {isCompact ? <span className="sr-only">{category.name}</span> : <span>{category.name}</span>}
     </Badge>
   );
 }

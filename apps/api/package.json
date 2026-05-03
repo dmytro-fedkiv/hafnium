@@ -3,39 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "nx": {
-    "name": "api",
-    "targets": {
-      "dev": {
-        "command": "tsx watch src/main.ts",
-        "options": {
-          "cwd": "apps/api"
-        }
-      },
-      "build": {
-        "command": "tsc -p tsconfig.json",
-        "options": {
-          "cwd": "apps/api"
-        }
-      },
-      "typecheck": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "options": {
-          "cwd": "apps/api"
-        }
-      },
-      "test": {
-        "command": "vitest run --passWithNoTests",
-        "options": {
-          "cwd": "apps/api"
-        }
-      },
-      "lint": {
-        "command": "eslint .",
-        "options": {
-          "cwd": "apps/api"
-        }
-      }
-    }
+  "scripts": {
+    "dev": "bun --watch src/main.ts",
+    "build": "tsc -p tsconfig.json",
+    "check": "vp check",
+    "fmt": "vp fmt --check",
+    "lint": "vp lint",
+    "test": "vp test --passWithNoTests",
+    "typecheck": "vp check --no-fmt --no-lint"
   }
 }

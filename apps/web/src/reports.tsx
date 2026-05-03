@@ -14,13 +14,7 @@ import {
 } from "recharts";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -44,13 +38,7 @@ type ExpenseCategory = {
   percentage: number;
 };
 
-const tabs: ReportTab[] = [
-  "Overview",
-  "Spending",
-  "Income",
-  "Cash Flow",
-  "Net Worth",
-];
+const tabs: ReportTab[] = ["Overview", "Spending", "Income", "Cash Flow", "Net Worth"];
 
 const metrics: Metric[] = [
   {
@@ -136,12 +124,8 @@ export function ReportsPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               Hafnum v0.1
             </p>
-            <h1 className="text-2xl font-medium tracking-normal">
-              Reports
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Analyze your financial data
-            </p>
+            <h1 className="text-2xl font-medium tracking-normal">Reports</h1>
+            <p className="text-sm text-muted-foreground">Analyze your financial data</p>
           </div>
           <Button
             className="border-border bg-background text-foreground hover:bg-muted"
@@ -180,10 +164,7 @@ export function ReportsPage() {
             <CardTitle className="text-sm">Expenses by Category</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-8 px-5 py-5 lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-center">
-            <ChartContainer
-              className="mx-auto aspect-square h-[220px] w-[220px]"
-              config={{}}
-            >
+            <ChartContainer className="mx-auto aspect-square h-[220px] w-[220px]" config={{}}>
               <PieChart>
                 <Pie
                   data={expenseCategories}
@@ -214,9 +195,7 @@ export function ReportsPage() {
                             x={viewBox.cx}
                             y={viewBox.cy}
                           >
-                            {currencyFormatter.format(
-                              totalExpensesCents / 100,
-                            )}
+                            {currencyFormatter.format(totalExpensesCents / 100)}
                           </tspan>
                           <tspan
                             className="fill-muted-foreground text-xs"
@@ -260,9 +239,7 @@ export function ReportsPage() {
                       className="size-2.5 border border-white/10 shadow-[0_0_10px_currentColor]"
                       style={{ backgroundColor: category.color, color: category.color }}
                     />
-                    <span className="truncate">
-                      {category.name}
-                    </span>
+                    <span className="truncate">{category.name}</span>
                   </div>
                   <span className="text-right font-mono text-muted-foreground">
                     {currencyFormatter.format(category.amountCents / 100)}
@@ -305,36 +282,23 @@ export function ReportsPage() {
                 margin={{ bottom: 8, left: 0, right: 10, top: 8 }}
               >
                 <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="0" vertical />
-                <XAxis
-                  axisLine={false}
-                  dataKey="month"
-                  tickLine={false}
-                  tickMargin={12}
-                />
+                <XAxis axisLine={false} dataKey="month" tickLine={false} tickMargin={12} />
                 <YAxis
                   axisLine={false}
-                  tickFormatter={(value) =>
-                    value === 0 ? "$0" : `$${Number(value) / 1000}k`
-                  }
+                  tickFormatter={(value) => (value === 0 ? "$0" : `$${Number(value) / 1000}k`)}
                   tickLine={false}
                   tickMargin={8}
                   width={44}
                 />
                 <ReferenceLine stroke="#26282C" y={0} />
-                <ReferenceLine
-                  stroke="#16a34a"
-                  strokeOpacity={0.35}
-                  x="May"
-                />
+                <ReferenceLine stroke="#16a34a" strokeOpacity={0.35} x="May" />
                 <ChartTooltip
                   content={
                     <ChartTooltipContent
                       className="border-border bg-background text-foreground"
                       formatter={(value, name) => (
                         <div className="flex min-w-40 items-center justify-between gap-4">
-                          <span className="capitalize text-muted-foreground">
-                            {name}
-                          </span>
+                          <span className="capitalize text-muted-foreground">{name}</span>
                           <span className="font-mono">
                             {currencyFormatter.format(Number(value))}
                           </span>
@@ -380,9 +344,7 @@ function MetricCard({ metric }: Readonly<{ metric: Metric }>) {
     <Card className="border border-border bg-card py-0 ring-0">
       <CardHeader className="gap-2 px-5 py-4">
         <CardDescription>{metric.label}</CardDescription>
-        <CardTitle className="font-mono text-2xl font-medium">
-          {metric.value}
-        </CardTitle>
+        <CardTitle className="font-mono text-2xl font-medium">{metric.value}</CardTitle>
         <p
           className="text-xs font-medium data-[tone=negative]:text-red-600 data-[tone=positive]:text-emerald-600"
           data-tone={metric.tone}

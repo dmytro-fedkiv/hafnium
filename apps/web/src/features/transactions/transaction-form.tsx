@@ -22,10 +22,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  accountOptions,
-  transactionCategories,
-} from "./mock-transactions";
+import { accountOptions, transactionCategories } from "./mock-transactions";
 import {
   type Transaction,
   type TransactionCategory,
@@ -134,17 +131,10 @@ export function TransactionForm({
 
   return (
     <Sheet onOpenChange={onOpenChange} open={open}>
-      <SheetContent
-        className="max-w-xl border-l border-border bg-background"
-        side="right"
-      >
+      <SheetContent className="max-w-xl border-l border-border bg-background" side="right">
         <SheetHeader className="border-b border-border px-5 py-4">
-          <SheetTitle>
-            {transaction ? "Edit transaction" : "Add transaction"}
-          </SheetTitle>
-          <SheetDescription>
-            Local-only changes for the transactions workspace.
-          </SheetDescription>
+          <SheetTitle>{transaction ? "Edit transaction" : "Add transaction"}</SheetTitle>
+          <SheetDescription>Local-only changes for the transactions workspace.</SheetDescription>
         </SheetHeader>
         <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
           <div className="grid gap-4 overflow-y-auto px-5 py-5">
@@ -163,9 +153,7 @@ export function TransactionForm({
                 type="number"
                 value={draft.amountCents ? draft.amountCents / 100 : ""}
               />
-              {errors.amount ? (
-                <p className="text-[11px] text-red-700">{errors.amount}</p>
-              ) : null}
+              {errors.amount ? <p className="text-[11px] text-red-700">{errors.amount}</p> : null}
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
@@ -283,10 +271,7 @@ export function TransactionForm({
                       key={category.id}
                     >
                       <span className="flex items-center gap-2">
-                        <Checkbox
-                          checked={checked}
-                          onChange={() => toggleCategory(category)}
-                        />
+                        <Checkbox checked={checked} onChange={() => toggleCategory(category)} />
                         <span className="text-sm">
                           {category.emoji} {category.name}
                         </span>
@@ -359,9 +344,7 @@ export function TransactionForm({
               <Button onClick={() => onOpenChange(false)} type="button" variant="ghost">
                 Cancel
               </Button>
-              <Button type="submit">
-                {transaction ? "Save changes" : "Create transaction"}
-              </Button>
+              <Button type="submit">{transaction ? "Save changes" : "Create transaction"}</Button>
             </div>
           </SheetFooter>
         </form>
