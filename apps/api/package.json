@@ -11,5 +11,8 @@
     "lint": "vp lint",
     "test": "vp test --passWithNoTests",
     "typecheck": "vp check --no-fmt --no-lint"
+  },
+  "devDependencies": {
+    "@effect/language-service": "^0.85.1"
   }
 }

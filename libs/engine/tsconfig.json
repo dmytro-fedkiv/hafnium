@@ -1,7 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "plugins": [{ "name": "@effect/language-service" }],
+    "paths": { "@/*": ["./src/*"] }
   },
   "include": ["src/**/*.ts"]
 }

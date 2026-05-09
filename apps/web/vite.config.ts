@@ -1,45 +1,10 @@
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-  fmt: {
-    ignorePatterns: ["dist/**", "node_modules/**", "src/routeTree.gen.ts"],
-    semi: true,
-    singleQuote: false,
-    sortPackageJson: true,
-  },
-  lint: {
-    ignorePatterns: ["dist/**", "node_modules/**", "src/routeTree.gen.ts"],
-    options: {
-      typeAware: true,
-      typeCheck: true,
-    },
-    overrides: [
-      {
-        files: ["**/*.{ts,tsx}"],
-        globals: {
-          console: "readonly",
-          document: "readonly",
-          fetch: "readonly",
-          module: "readonly",
-          navigator: "readonly",
-          process: "readonly",
-          Request: "readonly",
-          Response: "readonly",
-          setTimeout: "readonly",
-          URL: "readonly",
-          window: "readonly",
-        },
-        rules: {
-          "typescript/no-empty-object-type": "off",
-          "typescript/no-explicit-any": "off",
-        },
-      },
-    ],
-  },
   optimizeDeps: {
     exclude: ["@livestore/wa-sqlite"],
   },
