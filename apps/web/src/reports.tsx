@@ -237,7 +237,10 @@ export function ReportsPage() {
                   <div className="flex min-w-0 items-center gap-3">
                     <span
                       className="size-2.5 border border-white/10 shadow-[0_0_10px_currentColor]"
-                      style={{ backgroundColor: category.color, color: category.color }}
+                      style={{
+                        backgroundColor: category.color,
+                        color: category.color,
+                      }}
                     />
                     <span className="truncate">{category.name}</span>
                   </div>

@@ -1,49 +1,37 @@
-import { Events, nanoid, State } from "@livestore/livestore";
-import { Schema } from "effect";
+import { NanoId } from "@/database/utils/nano-id";
+import { Schema, State } from "@livestore/livestore";
+import { CategorySchema } from "./categories";
+import { CounterpartySchema } from "./counterparties";
 
-export enum TransactionType {
-  Income = "Income",
-  Expense = "Expense",
+export enum TransactionStatus {
+  Pending = "pending",
+  Completed = "completed",
+  Failed = "failed",
 }
 
-const schema = Schema.Struct({
-  id: Schema.String.pipe(State.SQLite.withPrimaryKey),
-  amountCents: Schema.Number,
-  description: Schema.String,
-  date: Schema.Date,
-  type: Schema.Literal(TransactionType.Income, TransactionType.Expense),
-  category: Schema.String,
-}).annotations({ title: "transactions" });
+export const TransactionSchema = Schema.Struct({
+  id: NanoId.pipe(State.SQLite.withPrimaryKey),
 
-const table = State.SQLite.table({ schema });
+  name: Schema.NonEmptyTrimmedString,
+  description: Schema.NonEmptyTrimmedString.pipe(Schema.optional),
 
-const events = {
-  transactionCreated: Events.synced({
-    name: "v1.transaction.created",
-    schema: Schema.Struct({
-      amountCents: Schema.Number,
-      description: Schema.String,
-      date: Schema.Date,
-      type: Schema.Literal(TransactionType.Income, TransactionType.Expense),
-      category: Schema.String,
-    }),
-  }),
-  transactionUpdated: Events.synced({
-    name: "v1.transaction.updated",
-    schema: Schema.Struct({
-      id: Schema.String,
-      amountCents: Schema.Number,
-      description: Schema.String,
-      date: Schema.Date,
-      type: Schema.Literal(TransactionType.Income, TransactionType.Expense),
-      category: Schema.String,
-    }),
-  }),
-} as const;
+  categoryId: CategorySchema.fields.id.pipe(Schema.optional),
 
-const materializers = State.SQLite.materializers(events, {
-  "v1.transaction.created": (transaction) => table.insert({ id: nanoid(), ...transaction }),
-  "v1.transaction.updated": ({ id, ...transaction }) => table.update(transaction).where({ id }),
+  counterpartyId: CounterpartySchema.fields.id,
+  sourceId: Schema.String,
+
+  status: Schema.Enums(TransactionStatus),
+
+  occurredAt: Schema.Date,
 });
 
-export const transaction = { schema, table, events, materializers };
+export const TransactionTable = State.SQLite.table({
+  name: "transactions",
+  schema: TransactionSchema,
+  indexes: [
+    {
+      name: "idx_transactions_counterpartyId",
+      columns: ["counterpartyId"],
+    },
+  ],
+});

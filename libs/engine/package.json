@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@livestore/livestore": "0.4.0-dev.22",
-    "effect": "3.19.12"
+    "effect": "3.19.12",
+    "frankfurter-js": "^0.1.1"
   }
 }

@@ -1,34 +1,93 @@
-import { makeSchema, State } from "@livestore/livestore";
-import { budget } from "./schema/budgets";
-import { category, defaultCategories } from "./schema/categories";
-import { transaction } from "./schema/transactions";
-
-export const tables = {
-  budget: budget.table,
-  category: category.table,
-  transaction: transaction.table,
-} as const;
+import { CategoryTable } from "@/database/schema/categories";
+import { CounterpartyTable } from "@/database/schema/counterparties";
+import { DenominationTable } from "@/database/schema/denominations";
+import { InstrumentTable } from "@/database/schema/instruments";
+import { LedgerAccountTable } from "@/database/schema/ledger-account";
+import {
+  TransactionEntrySchema,
+  TransactionEntryTable,
+} from "@/database/schema/transaction-entries";
+import { TransactionSchema, TransactionTable } from "@/database/schema/transactions";
+import {
+  defineMaterializer,
+  Events,
+  makeSchema,
+  nanoid,
+  Schema,
+  State,
+} from "@livestore/livestore";
+import { NanoId } from "./utils/nano-id";
 
 export const events = {
-  ...budget.events,
-  ...category.events,
-  ...transaction.events,
+  CreateTransaction: Events.synced({
+    name: "v0.Transaction.CreateTransaction",
+    schema: TransactionSchema.pipe(
+      Schema.omit("id"),
+      Schema.extend(
+        Schema.Struct({
+          entries: Schema.NonEmptyArray(
+            TransactionEntrySchema.pipe(Schema.omit("id", "transactionId")),
+          ),
+        }),
+      ),
+    ),
+  }),
+  SetTransactionCategory: Events.synced({
+    name: "v0.Transaction.SetTransactionCategory",
+    schema: Schema.Struct({
+      transactionId: TransactionSchema.fields.id,
+      categoryId: TransactionSchema.fields.categoryId,
+    }),
+  }),
 } as const;
-
-const materializers = {
-  ...budget.materializers,
-  ...category.materializers,
-  ...transaction.materializers,
-} as const;
-
-const state = State.SQLite.makeState({
-  tables,
-  materializers,
-});
 
 export const schema = makeSchema({
   events,
-  state,
-});
+  state: State.SQLite.makeState({
+    tables: {
+      categories: CategoryTable,
+      counterparties: CounterpartyTable,
+      denominations: DenominationTable,
+      instruments: InstrumentTable,
+      ledgerAccounts: LedgerAccountTable,
+      transactionEntries: TransactionEntryTable,
+      transactions: TransactionTable,
+    },
+    materializers: State.SQLite.materializers(events, {
+      [events.CreateTransaction.name]: defineMaterializer(
+        events.CreateTransaction,
+        (transaction) => {
+          const transactionId = nanoid<NanoId>();
 
-export { budget, category, defaultCategories, transaction };
+          return [
+            TransactionTable.insert({
+              id: transactionId,
+              name: transaction.name,
+              description: transaction.description,
+              categoryId: transaction.categoryId,
+              counterpartyId: transaction.counterpartyId,
+              sourceId: transaction.sourceId,
+              status: transaction.status,
+              occurredAt: transaction.occurredAt,
+            }),
+            ...transaction.entries.map((entry) =>
+              TransactionEntryTable.insert({
+                id: nanoid(),
+                transactionId,
+                ledgerAccountId: entry.ledgerAccountId,
+                denominationId: entry.denominationId,
+                side: entry.side,
+                quantity: entry.quantity,
+              }),
+            ),
+          ];
+        },
+      ),
+      [events.SetTransactionCategory.name]: defineMaterializer(
+        events.SetTransactionCategory,
+        ({ transactionId, categoryId }) =>
+          TransactionTable.update({ categoryId }).where({ id: transactionId }),
+      ),
+    }),
+  }),
+});

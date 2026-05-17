@@ -1,53 +1,24 @@
-import { Events, nanoid, State } from "@livestore/livestore";
-import { Schema } from "effect";
+import { NanoId } from "@/database/utils/nano-id";
+import { Schema, State } from "@livestore/livestore";
 
-export const defaultCategories = [
-  { id: "food", name: "Food", emoji: "🍔", color: "#d97706" },
-  { id: "coffee", name: "Coffee", emoji: "☕", color: "#92400e" },
-  { id: "salary", name: "Salary", emoji: "💼", color: "#15803d" },
-  { id: "rent", name: "Rent", emoji: "🏠", color: "#1d4ed8" },
-  { id: "travel", name: "Travel", emoji: "✈️", color: "#0891b2" },
-  { id: "software", name: "Software", emoji: "🧩", color: "#7c3aed" },
-  { id: "health", name: "Health", emoji: "🩺", color: "#dc2626" },
-] as const;
+export enum CategoryColor {
+  Red = "red",
+  Orange = "orange",
+  Yellow = "yellow",
+  Green = "green",
+  Blue = "blue",
+  Purple = "purple",
+  Gray = "gray",
+}
 
-const schema = Schema.Struct({
-  id: Schema.String.pipe(State.SQLite.withPrimaryKey),
-  name: Schema.String,
-  emoji: Schema.String.pipe(State.SQLite.withDefault("🗄️")),
-  color: Schema.String.pipe(State.SQLite.withDefault("#737373")),
-  createdAt: Schema.Date,
-  updatedAt: Schema.Date,
-}).annotations({ title: "categories" });
+export const CategorySchema = Schema.Struct({
+  id: NanoId.pipe(State.SQLite.withPrimaryKey),
 
-const table = State.SQLite.table({ schema });
-
-const events = {
-  created: Events.synced({
-    name: "v1.category.created",
-    schema: Schema.Struct({
-      name: Schema.String,
-      emoji: Schema.String,
-      color: Schema.String,
-      createdAt: Schema.Date,
-      updatedAt: Schema.Date,
-    }),
-  }),
-  updated: Events.synced({
-    name: "v1.category.updated",
-    schema: Schema.Struct({
-      id: Schema.String,
-      name: Schema.String,
-      emoji: Schema.String,
-      color: Schema.String,
-      updatedAt: Schema.Date,
-    }),
-  }),
-} as const;
-
-const materializers = State.SQLite.materializers(events, {
-  "v1.category.created": (category) => table.insert({ id: nanoid(), ...category }),
-  "v1.category.updated": ({ id, ...category }) => table.update(category).where({ id }),
+  name: Schema.NonEmptyTrimmedString,
+  color: Schema.Enums(CategoryColor),
 });
 
-export const category = { schema, table, events, materializers };
+export const CategoryTable = State.SQLite.table({
+  name: "categories",
+  schema: CategorySchema,
+});
