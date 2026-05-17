@@ -13,6 +13,15 @@
     "typecheck": "vp check --no-fmt --no-lint"
   },
   "devDependencies": {
-    "@effect/language-service": "^0.85.1"
+    "@effect/language-service": "^0.85.1",
+    "effect-db": "^0.17.0"
+  },
+  "dependencies": {
+    "@effect/platform": "^0.96.1",
+    "@effect/sql": "^0.51.1",
+    "@effect/sql-pg": "^0.52.1",
+    "effect": "^3.21.2",
+    "effect-qb": "^0.17.0",
+    "plaid": "^42.2.0"
   }
 }
