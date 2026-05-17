@@ -7,6 +7,12 @@
       "skillPath": "skills/effect-ts/SKILL.md",
       "computedHash": "273eb6d71f6b7732aaed3b6b61330be3ea56894223339aee4a294bd43cb61d0b"
     },
+    "logging-best-practices": {
+      "source": "boristane/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/logging-best-practices/SKILL.md",
+      "computedHash": "b4810947c33b5356bf385c84cfe387afa9c54af652baaedb7d642a083cceaa4c"
+    },
     "tanstack-start-best-practices": {
       "source": "deckardger/tanstack-agent-skills",
       "sourceType": "github",
